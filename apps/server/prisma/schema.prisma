@@ -13,9 +13,10 @@ model User {
   email    String
   password String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   File      File[]
+  channels  Channel[]
 }
 
 model File {
@@ -28,6 +29,24 @@ model File {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  uploadedBy   User   @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
-  uploadedById String @db.ObjectId
+  uploadedBy     User      @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedById   String    @db.ObjectId
+  channelLogos   Channel[] @relation(name: "ChannelLogo")
+  channelBanners Channel[] @relation(name: "ChannelBanner")
+}
+
+model Channel {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String   @unique
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isActive    Boolean  @default(false)
+
+  createdBy   User    @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdById String  @db.ObjectId
+  logo        File    @relation(fields: [logoId], references: [id], name: "ChannelLogo")
+  logoId      String  @db.ObjectId
+  banner      File?   @relation(fields: [bannerId], references: [id], name: "ChannelBanner")
+  bannerId    String? @db.ObjectId
 }
