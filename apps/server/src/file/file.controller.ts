@@ -7,11 +7,11 @@ import { JwtGuard } from '~/auth/jwt/jwt.guard'
 import { GetUser } from '~/auth/user.decorator'
 import { SanitizedUser } from '~/user/user.types'
 
-@UseGuards(JwtGuard)
 @Controller('file')
 export class FileController {
   constructor(private readonly fileService: FileService) {}
 
+  @UseGuards(JwtGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File, @GetUser() user: SanitizedUser): Promise<File> {
