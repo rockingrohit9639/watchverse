@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { Channel } from '@prisma/client'
 import { PrismaService } from '~/prisma/prisma.service'
 import { CreateChannelDto, UpdateChannelDto } from './channel.dto'
@@ -10,6 +10,11 @@ export class ChannelService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async createChannel(dto: CreateChannelDto, user: SanitizedUser): Promise<Channel> {
+    const existingChannel = await this.prismaService.channel.findFirst({ where: { name: dto.name } })
+    if (existingChannel) {
+      throw new BadRequestException('Channel with this name already exists!')
+    }
+
     const createdChannels = await this.prismaService.channel.count({ where: { createdById: user.id } })
 
     return this.prismaService.channel.create({

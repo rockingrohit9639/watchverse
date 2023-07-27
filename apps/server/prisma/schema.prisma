@@ -17,6 +17,8 @@ model User {
   updatedAt DateTime  @updatedAt
   File      File[]
   channels  Channel[]
+
+  @@map("users")
 }
 
 model File {
@@ -33,6 +35,8 @@ model File {
   uploadedById   String    @db.ObjectId
   channelLogos   Channel[] @relation(name: "ChannelLogo")
   channelBanners Channel[] @relation(name: "ChannelBanner")
+
+  @@map("files")
 }
 
 model Channel {
@@ -49,4 +53,6 @@ model Channel {
   logoId      String  @db.ObjectId
   banner      File?   @relation(fields: [bannerId], references: [id], name: "ChannelBanner")
   bannerId    String? @db.ObjectId
+
+  @@map("channels")
 }
