@@ -5,6 +5,7 @@ import { UpdateVideoDto, UploadVideoDto } from './video.dto'
 import { SanitizedUser } from '~/user/user.types'
 import { FileService } from '~/file/file.service'
 import { ChannelService } from '~/channel/channel.service'
+import { PlaylistService } from '~/playlist/playlist.service'
 
 @Injectable()
 export class VideoService {
@@ -12,6 +13,7 @@ export class VideoService {
     private readonly prismaService: PrismaService,
     private readonly fileService: FileService,
     private readonly channelService: ChannelService,
+    private readonly playlistService: PlaylistService,
   ) {}
 
   async uploadVideo(dto: UploadVideoDto, user: SanitizedUser): Promise<Video> {
@@ -21,10 +23,6 @@ export class VideoService {
     }
 
     const activeChannel = await this.channelService.findActiveChannel(user.id)
-    if (!activeChannel) {
-      throw new BadRequestException('No active channel found!')
-    }
-
     return this.prismaService.video.create({
       data: {
         title: dto.title,
@@ -77,5 +75,22 @@ export class VideoService {
     }
 
     return this.prismaService.video.delete({ where: { id } })
+  }
+
+  async addToPlaylist(videoId: string, playlistId: string, user: SanitizedUser): Promise<Video> {
+    const playlist = await this.playlistService.findOneById(playlistId)
+    if (playlist.createdById !== user.id) {
+      throw new ForbiddenException('You are not allowed to add videos to this playlist!')
+    }
+    const video = await this.findOneById(videoId)
+    return this.prismaService.video.update({
+      where: { id: video.id },
+      data: { playlists: { connect: { id: playlist.id } } },
+    })
+  }
+
+  async findPlaylistVideos(playlistId: string): Promise<Video[]> {
+    const playlist = await this.playlistService.findOneById(playlistId)
+    return this.prismaService.video.findMany({ where: { playlists: { some: { id: playlist.id } } } })
   }
 }

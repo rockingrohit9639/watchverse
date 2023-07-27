@@ -26,11 +26,6 @@ export class VideoController {
     return this.videoService.findAllChannelVideos(channelId)
   }
 
-  @Get(':id')
-  findOneById(@Param('id') id: string): Promise<Video> {
-    return this.videoService.findOneById(id)
-  }
-
   @Get()
   findAll(@GetUser() user: SanitizedUser): Promise<Video[]> {
     return this.videoService.findAll(user)
@@ -39,5 +34,24 @@ export class VideoController {
   @Delete(':id')
   delete(@Param('id') id: string, @GetUser() user: SanitizedUser): Promise<Video> {
     return this.videoService.delete(id, user)
+  }
+
+  @Post('add-to-playlist/:videoId/:playlistId')
+  addToPlaylist(
+    @Param('videoId') videoId: string,
+    @Param('playlistId') playlistId: string,
+    @GetUser() user: SanitizedUser,
+  ): Promise<Video> {
+    return this.videoService.addToPlaylist(videoId, playlistId, user)
+  }
+
+  @Get('playlist/:playlistId')
+  findPlaylistVideos(@Param('playlistId') playlistId: string): Promise<Video[]> {
+    return this.videoService.findPlaylistVideos(playlistId)
+  }
+
+  @Get(':id')
+  findOneById(@Param('id') id: string): Promise<Video> {
+    return this.videoService.findOneById(id)
   }
 }

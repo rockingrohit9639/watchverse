@@ -75,6 +75,10 @@ export class ChannelService {
   }
 
   async findActiveChannel(userId: string): Promise<Channel> {
-    return this.prismaService.channel.findFirst({ where: { isActive: true, createdById: userId } })
+    const activeChannel = await this.prismaService.channel.findFirst({ where: { isActive: true, createdById: userId } })
+    if (!activeChannel) {
+      throw new NotFoundException('No active channel found, please create a channel first!')
+    }
+    return activeChannel
   }
 }
