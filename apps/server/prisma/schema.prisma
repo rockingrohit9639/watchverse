@@ -13,10 +13,11 @@ model User {
   email    String
   password String
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  File      File[]
-  channels  Channel[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  File           File[]
+  channels       Channel[]
+  videosUploaded Video[]
 
   @@map("users")
 }
@@ -31,10 +32,12 @@ model File {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  uploadedBy     User      @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
-  uploadedById   String    @db.ObjectId
-  channelLogos   Channel[] @relation(name: "ChannelLogo")
-  channelBanners Channel[] @relation(name: "ChannelBanner")
+  uploadedBy      User      @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedById    String    @db.ObjectId
+  channelLogos    Channel[] @relation(name: "ChannelLogo")
+  channelBanners  Channel[] @relation(name: "ChannelBanner")
+  videos          Video[]   @relation(name: "Videos")
+  videoThumbnails Video[]   @relation(name: "VideoThumbnails")
 
   @@map("files")
 }
@@ -53,6 +56,32 @@ model Channel {
   logoId      String  @db.ObjectId
   banner      File?   @relation(fields: [bannerId], references: [id], name: "ChannelBanner")
   bannerId    String? @db.ObjectId
+  videos      Video[]
 
   @@map("channels")
+}
+
+enum VideoVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+model Video {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  title       String
+  description String
+  visibility  VideoVisibility @default(PRIVATE)
+
+  video        File    @relation(name: "Videos", fields: [videoId], references: [id], onDelete: Cascade)
+  videoId      String  @db.ObjectId
+  uploadedBy   User    @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedById String  @db.ObjectId
+  channel      Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  channelId    String  @db.ObjectId
+  thumbnail    File    @relation(name: "VideoThumbnails", fields: [thumbnailId], references: [id])
+  thumbnailId  String  @db.ObjectId
+
+  @@map("videos")
 }

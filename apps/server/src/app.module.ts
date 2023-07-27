@@ -6,9 +6,18 @@ import { PrismaModule } from './prisma/prisma.module'
 import { AuthModule } from './auth/auth.module'
 import { FileModule } from './file/file.module'
 import { ChannelModule } from './channel/channel.module'
+import { VideoModule } from './video/video.module'
 
 @Module({
-  imports: [ConfigModule.forRoot(configOptions), PrismaModule, AuthModule, UserModule, FileModule, ChannelModule],
+  imports: [
+    ConfigModule.forRoot(configOptions),
+    PrismaModule,
+    AuthModule,
+    UserModule,
+    FileModule,
+    ChannelModule,
+    VideoModule,
+  ],
   providers: [],
 })
 export class AppModule {}
