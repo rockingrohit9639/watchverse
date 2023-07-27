@@ -8,6 +8,8 @@ import * as contentDisposition from 'content-disposition'
 import { EnvironmentVars } from '~/config/config.options'
 import { PrismaService } from '~/prisma/prisma.service'
 import { SanitizedUser } from '~/user/user.types'
+import { VALID_IMAGE_TYPES, VALID_VIDEO_TYPES } from '~/utils/multer'
+import { MimeType } from './file.type'
 
 @Injectable()
 export class FileService {
@@ -53,5 +55,15 @@ export class FileService {
 
   private getFilePath(file: File): string {
     return path.resolve(this.configService.get('UPLOAD_DEST'), file.filename)
+  }
+
+  async isFileAVideo(id: string): Promise<boolean> {
+    const file = await this.findOneById(id)
+    return VALID_VIDEO_TYPES.includes(file.mimeType as MimeType)
+  }
+
+  async isFileAnImage(id: string): Promise<boolean> {
+    const file = await this.findOneById(id)
+    return VALID_IMAGE_TYPES.includes(file.mimeType as MimeType)
   }
 }

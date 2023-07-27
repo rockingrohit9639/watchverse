@@ -4,15 +4,26 @@ import { PrismaService } from '~/prisma/prisma.service'
 import { CreateChannelDto, UpdateChannelDto } from './channel.dto'
 import { SanitizedUser } from '~/user/user.types'
 import { USER_SELECT_FIELDS } from '~/user/user.fields'
+import { FileService } from '~/file/file.service'
 
 @Injectable()
 export class ChannelService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly prismaService: PrismaService, private readonly fileService: FileService) {}
 
   async createChannel(dto: CreateChannelDto, user: SanitizedUser): Promise<Channel> {
     const existingChannel = await this.prismaService.channel.findFirst({ where: { name: dto.name } })
     if (existingChannel) {
       throw new BadRequestException('Channel with this name already exists!')
+    }
+
+    const isLogoAnImage = await this.fileService.isFileAnImage(dto.logo)
+    if (!isLogoAnImage) {
+      throw new BadRequestException('Logo is not an image file!')
+    }
+
+    const isBannerAnImage = dto.banner ? await this.fileService.isFileAnImage(dto.banner) : true
+    if (!isBannerAnImage) {
+      throw new BadRequestException('Banner is not an image!')
     }
 
     const createdChannels = await this.prismaService.channel.count({ where: { createdById: user.id } })
@@ -61,5 +72,9 @@ export class ChannelService {
       throw new UnauthorizedException('You are not allowed to delete this channel!')
     }
     return this.prismaService.channel.delete({ where: { id } })
+  }
+
+  async findActiveChannel(userId: string): Promise<Channel> {
+    return this.prismaService.channel.findFirst({ where: { isActive: true, createdById: userId } })
   }
 }
