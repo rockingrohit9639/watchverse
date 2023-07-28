@@ -21,6 +21,8 @@ model User {
   playlists            Playlist[]
   channelSubscribed    Channel[]  @relation(name: "ChannelSubscribed", fields: [channelSubscribedIds], references: [id])
   channelSubscribedIds String[]   @db.ObjectId
+  likedVideos          Like[]     @relation(name: "LikedVideos", fields: [likedVideoIds], references: [id])
+  likedVideoIds        String[]   @db.ObjectId
 
   @@map("users")
 }
@@ -80,6 +82,8 @@ model Video {
   description String
   visibility  VideoVisibility @default(PRIVATE)
 
+  likes Int @default(0)
+
   video        File    @relation(name: "Videos", fields: [videoId], references: [id], onDelete: Cascade)
   videoId      String  @db.ObjectId
   uploadedBy   User    @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
@@ -89,8 +93,9 @@ model Video {
   thumbnail    File    @relation(name: "VideoThumbnails", fields: [thumbnailId], references: [id])
   thumbnailId  String  @db.ObjectId
 
-  playlists   Playlist[] @relation(fields: [playlistIds], references: [id])
-  playlistIds String[]   @db.ObjectId
+  playlists     Playlist[] @relation(fields: [playlistIds], references: [id])
+  playlistIds   String[]   @db.ObjectId
+  likeDocuments Like[]
 
   @@map("videos")
 }
@@ -110,4 +115,16 @@ model Playlist {
   videoIds    String[] @db.ObjectId
 
   @@map("playlists")
+}
+
+// Each post will be having its single document to manage its likes
+model Like {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId    String   @db.ObjectId
+  likedBy    User[]   @relation(name: "LikedVideos", fields: [likedByIds], references: [id])
+  likedByIds String[] @db.ObjectId
 }

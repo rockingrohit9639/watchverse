@@ -93,4 +93,12 @@ export class VideoService {
     const playlist = await this.playlistService.findOneById(playlistId)
     return this.prismaService.video.findMany({ where: { playlists: { some: { id: playlist.id } } } })
   }
+
+  increaseLike(id: string): Promise<Video> {
+    return this.prismaService.video.update({ where: { id }, data: { likes: { increment: 1 } } })
+  }
+
+  decreaseLike(id: string): Promise<Video> {
+    return this.prismaService.video.update({ where: { id }, data: { likes: { decrement: 1 } } })
+  }
 }

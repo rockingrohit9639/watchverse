@@ -9,5 +9,6 @@ import { PlaylistModule } from '~/playlist/playlist.module'
   imports: [FileModule, ChannelModule, PlaylistModule],
   controllers: [VideoController],
   providers: [VideoService],
+  exports: [VideoService],
 })
 export class VideoModule {}

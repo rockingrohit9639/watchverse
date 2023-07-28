@@ -8,6 +8,7 @@ import { FileModule } from './file/file.module'
 import { ChannelModule } from './channel/channel.module'
 import { VideoModule } from './video/video.module'
 import { PlaylistModule } from './playlist/playlist.module'
+import { LikeModule } from './like/like.module'
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { PlaylistModule } from './playlist/playlist.module'
     ChannelModule,
     VideoModule,
     PlaylistModule,
+    LikeModule,
   ],
   providers: [],
 })
