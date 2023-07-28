@@ -6,4 +6,5 @@ export const USER_SELECT_FIELDS = {
   email: true,
   createdAt: true,
   updatedAt: true,
+  channelSubscribedIds: true,
 } satisfies Prisma.UserSelect

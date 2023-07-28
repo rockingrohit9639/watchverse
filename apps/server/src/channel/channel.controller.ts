@@ -21,11 +21,6 @@ export class ChannelController {
     return this.channelService.updateChannel(id, dto, user)
   }
 
-  @Get(':id')
-  findChannel(@Param('id') id: string): Promise<Channel> {
-    return this.channelService.findOneById(id)
-  }
-
   @Get()
   getUserChannels(@GetUser() user: SanitizedUser): Promise<Channel[]> {
     return this.channelService.findUserChannels(user)
@@ -34,5 +29,29 @@ export class ChannelController {
   @Delete(':id')
   deleteChannel(@Param('id') id: string, @GetUser() user: SanitizedUser): Promise<Channel> {
     return this.channelService.deleteChannel(id, user)
+  }
+
+  @Post('subscribe/:id')
+  subscribeChannel(@Param('id') id: string, @GetUser() user: SanitizedUser): Promise<Channel> {
+    return this.channelService.subscribeChannel(id, user)
+  }
+
+  @Get('subscribers/:id')
+  findSubscribers(
+    @Param('id') id: string,
+    @GetUser() user: SanitizedUser,
+  ): Promise<
+    {
+      id: string
+      name: string
+      email: string
+    }[]
+  > {
+    return this.channelService.findSubscribers(id, user)
+  }
+
+  @Get(':id')
+  findChannel(@Param('id') id: string): Promise<Channel> {
+    return this.channelService.findOneById(id)
   }
 }

@@ -13,12 +13,14 @@ model User {
   email    String
   password String
 
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @updatedAt
-  File           File[]
-  channels       Channel[]
-  videosUploaded Video[]
-  playlists      Playlist[]
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+  files                File[]
+  channels             Channel[]
+  videosUploaded       Video[]
+  playlists            Playlist[]
+  channelSubscribed    Channel[]  @relation(name: "ChannelSubscribed", fields: [channelSubscribedIds], references: [id])
+  channelSubscribedIds String[]   @db.ObjectId
 
   @@map("users")
 }
@@ -51,14 +53,16 @@ model Channel {
   updatedAt   DateTime @updatedAt
   isActive    Boolean  @default(false)
 
-  createdBy   User       @relation(fields: [createdById], references: [id], onDelete: Cascade)
-  createdById String     @db.ObjectId
-  logo        File       @relation(fields: [logoId], references: [id], name: "ChannelLogo")
-  logoId      String     @db.ObjectId
-  banner      File?      @relation(fields: [bannerId], references: [id], name: "ChannelBanner")
-  bannerId    String?    @db.ObjectId
-  videos      Video[]
-  playlists   Playlist[]
+  createdBy     User       @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdById   String     @db.ObjectId
+  logo          File       @relation(fields: [logoId], references: [id], name: "ChannelLogo")
+  logoId        String     @db.ObjectId
+  banner        File?      @relation(fields: [bannerId], references: [id], name: "ChannelBanner")
+  bannerId      String?    @db.ObjectId
+  videos        Video[]
+  playlists     Playlist[]
+  subscribers   User[]     @relation("ChannelSubscribed", fields: [subscriberIds], references: [id])
+  subscriberIds String[]   @db.ObjectId
 
   @@map("channels")
 }

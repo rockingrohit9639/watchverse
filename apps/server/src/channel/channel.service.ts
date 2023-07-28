@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { Channel } from '@prisma/client'
 import { PrismaService } from '~/prisma/prisma.service'
 import { CreateChannelDto, UpdateChannelDto } from './channel.dto'
@@ -80,5 +86,50 @@ export class ChannelService {
       throw new NotFoundException('No active channel found, please create a channel first!')
     }
     return activeChannel
+  }
+
+  async subscribeChannel(id: string, user: SanitizedUser): Promise<Channel> {
+    const channel = await this.findOneById(id)
+    if (channel.createdById === user.id) {
+      throw new BadRequestException('You cannot subscribe to your own channel!')
+    }
+
+    const isSubscribed = await this.prismaService.channel.findFirst({ where: { subscriberIds: { has: user.id } } })
+    if (isSubscribed) {
+      return this.prismaService.channel.update({
+        where: { id: channel.id },
+        data: { subscribers: { disconnect: { id: user.id } } },
+      })
+    }
+
+    return this.prismaService.channel.update({
+      where: { id: channel.id },
+      data: { subscribers: { connect: { id: user.id } } },
+    })
+  }
+
+  async findSubscribers(
+    id: string,
+    user: SanitizedUser,
+  ): Promise<
+    {
+      id: string
+      name: string
+      email: string
+    }[]
+  > {
+    const channel = await this.prismaService.channel.findFirst({
+      where: { id },
+      include: { subscribers: { select: { id: true, name: true, email: true } } },
+    })
+    if (!channel) {
+      throw new NotFoundException('Channel not found!')
+    }
+
+    if (channel.createdById !== user.id) {
+      throw new ForbiddenException('You are not allowed to see subscribers for this channel!')
+    }
+
+    return channel.subscribers
   }
 }
