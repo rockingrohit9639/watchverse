@@ -9,6 +9,7 @@ import { ChannelModule } from './channel/channel.module'
 import { VideoModule } from './video/video.module'
 import { PlaylistModule } from './playlist/playlist.module'
 import { LikeModule } from './like/like.module'
+import { CommentModule } from './comment/comment.module'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { LikeModule } from './like/like.module'
     VideoModule,
     PlaylistModule,
     LikeModule,
+    CommentModule,
   ],
   providers: [],
 })

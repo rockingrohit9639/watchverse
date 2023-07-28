@@ -23,6 +23,7 @@ model User {
   channelSubscribedIds String[]   @db.ObjectId
   likedVideos          Like[]     @relation(name: "LikedVideos", fields: [likedVideoIds], references: [id])
   likedVideoIds        String[]   @db.ObjectId
+  comments             Comment[]
 
   @@map("users")
 }
@@ -96,6 +97,7 @@ model Video {
   playlists     Playlist[] @relation(fields: [playlistIds], references: [id])
   playlistIds   String[]   @db.ObjectId
   likeDocuments Like[]
+  comments      Comment[]
 
   @@map("videos")
 }
@@ -127,4 +129,16 @@ model Like {
   videoId    String   @db.ObjectId
   likedBy    User[]   @relation(name: "LikedVideos", fields: [likedByIds], references: [id])
   likedByIds String[] @db.ObjectId
+}
+
+model Comment {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String
+
+  video       Video  @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId     String @db.ObjectId
+  createdBy   User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdById String @db.ObjectId
 }
