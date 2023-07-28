@@ -101,4 +101,8 @@ export class VideoService {
   decreaseLike(id: string): Promise<Video> {
     return this.prismaService.video.update({ where: { id }, data: { likes: { decrement: 1 } } })
   }
+
+  increaseView(id: string): Promise<Video> {
+    return this.prismaService.video.update({ where: { id }, data: { views: { increment: 1 } } })
+  }
 }

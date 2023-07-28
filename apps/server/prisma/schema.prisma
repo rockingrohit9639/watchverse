@@ -24,6 +24,8 @@ model User {
   likedVideos          Like[]     @relation(name: "LikedVideos", fields: [likedVideoIds], references: [id])
   likedVideoIds        String[]   @db.ObjectId
   comments             Comment[]
+  views                View[]     @relation(name: "ViewedBy", fields: [viewsIds], references: [id])
+  viewsIds             String[]   @db.ObjectId
 
   @@map("users")
 }
@@ -84,6 +86,7 @@ model Video {
   visibility  VideoVisibility @default(PRIVATE)
 
   likes Int @default(0)
+  views Int @default(0)
 
   video        File    @relation(name: "Videos", fields: [videoId], references: [id], onDelete: Cascade)
   videoId      String  @db.ObjectId
@@ -98,6 +101,7 @@ model Video {
   playlistIds   String[]   @db.ObjectId
   likeDocuments Like[]
   comments      Comment[]
+  viewDocuments View[]
 
   @@map("videos")
 }
@@ -141,4 +145,16 @@ model Comment {
   videoId     String @db.ObjectId
   createdBy   User   @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdById String @db.ObjectId
+}
+
+// Each post will be having its single document to manage its views
+model View {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  video       Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
+  videoId     String   @db.ObjectId
+  viewedBy    User[]   @relation(name: "ViewedBy", fields: [viewedByIds], references: [id])
+  viewedByIds String[] @db.ObjectId
 }

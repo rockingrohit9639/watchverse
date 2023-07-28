@@ -10,6 +10,7 @@ import { VideoModule } from './video/video.module'
 import { PlaylistModule } from './playlist/playlist.module'
 import { LikeModule } from './like/like.module'
 import { CommentModule } from './comment/comment.module'
+import { ViewModule } from './view/view.module'
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CommentModule } from './comment/comment.module'
     PlaylistModule,
     LikeModule,
     CommentModule,
+    ViewModule,
   ],
   providers: [],
 })
