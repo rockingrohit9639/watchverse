@@ -1,5 +1,6 @@
 import { useCallback } from 'react'
 import { isAxiosError } from 'axios'
+import { message } from 'antd'
 
 const useError = () => {
   const isUnAuthorized = useCallback((error: any) => {
@@ -29,8 +30,7 @@ const useError = () => {
 
   const handleError = useCallback(
     (error: any) => {
-      /** Update this according to your ui */
-      alert(getErrorMessage(error))
+      message.error(getErrorMessage(error))
     },
     [getErrorMessage],
   )

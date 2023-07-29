@@ -1,4 +1,4 @@
-import { LoginDto } from '~/types/auth'
+import { LoginDto, SignupDto } from '~/types/auth'
 import { User } from '~/types/user'
 import { apiClient } from '~/utils/client'
 
@@ -9,5 +9,10 @@ export async function fetchLoggedInUser() {
 
 export async function login(dto: LoginDto) {
   const { data } = await apiClient.post<{ accessToken: string; user: User }>('auth/login', dto)
+  return data
+}
+
+export async function signup(dto: SignupDto) {
+  const { data } = await apiClient.post<{ accessToken: string; user: User }>('auth/signup', dto)
   return data
 }
