@@ -54,4 +54,12 @@ export class ChannelController {
   findChannel(@Param('id') id: string): Promise<Channel> {
     return this.channelService.findOneById(id)
   }
+
+  @Post('active/:id')
+  updateActiveChannel(
+    @Param('id') id: string,
+    @GetUser() user: SanitizedUser,
+  ): Promise<{ previousActive: Channel; newActive: Channel }> {
+    return this.channelService.updateActiveChannel(id, user)
+  }
 }

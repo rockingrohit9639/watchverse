@@ -150,6 +150,20 @@ export class ChannelService {
     return channel.subscribers
   }
 
+  async updateActiveChannel(id: string, user: SanitizedUser): Promise<{ previousActive: Channel; newActive: Channel }> {
+    const channel = await this.findOneById(id)
+    const currentActiveChannel = await this.findActiveChannel(user.id)
+    const [previousActive, newActive] = await Promise.all([
+      this.prismaService.channel.update({ where: { id: currentActiveChannel.id }, data: { isActive: false } }),
+      this.prismaService.channel.update({ where: { id: channel.id }, data: { isActive: true } }),
+    ])
+
+    return {
+      previousActive,
+      newActive,
+    }
+  }
+
   /** Key format -> channel-name-channel-id  */
   getChannelKey(name: string, id: string): string {
     return slugify(`${name}-${id}`)

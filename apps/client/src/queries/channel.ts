@@ -10,3 +10,8 @@ export async function fetchUserChannels() {
   const { data } = await apiClient.get<Channel[]>('channel')
   return data
 }
+
+export async function updateActiveChannel(id: string) {
+  const { data } = await apiClient.post<{ previousActive: Channel; newActive: Channel }>(`channel/active/${id}`)
+  return data
+}

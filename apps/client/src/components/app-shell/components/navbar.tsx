@@ -2,14 +2,16 @@ import { Avatar, Dropdown, Tooltip } from 'antd'
 import clsx from 'clsx'
 import { BellOutlined, CheckOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useMemo } from 'react'
 import { ItemType } from 'antd/es/menu/hooks/useItems'
 import { useUser } from '~/hooks/use-user'
 import UpdateProfileModal from '~/components/update-profile-modal'
 import { ENV } from '~/utils/env'
 import CreateChannelModal from '~/components/create-channel-modal'
-import { fetchUserChannels } from '~/queries/channel'
+import { fetchUserChannels, updateActiveChannel } from '~/queries/channel'
+import useError from '~/hooks/use-error'
+import { QUERY_KEYS } from '~/utils/qk'
 
 type NavbarProps = {
   className?: string
@@ -20,7 +22,16 @@ const NAVBAR_HEIGHT = 60
 
 export default function Navbar({ className, style }: NavbarProps) {
   const { user } = useUser()
-  const { data: userChannels } = useQuery(['channels'], fetchUserChannels)
+  const { data: userChannels } = useQuery([QUERY_KEYS.channels], fetchUserChannels)
+  const { handleError } = useError()
+  const queryClient = useQueryClient()
+
+  const updateActiveChannelMutation = useMutation(updateActiveChannel, {
+    onError: handleError,
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEYS.channels])
+    },
+  })
 
   const menuItems = useMemo(() => {
     const items: ItemType[] = [
@@ -54,12 +65,15 @@ export default function Navbar({ className, style }: NavbarProps) {
               ) : null}
             </div>
           ),
+          onClick: () => {
+            updateActiveChannelMutation.mutate(channel.id)
+          },
         })
       })
     }
 
     return items
-  }, [userChannels])
+  }, [updateActiveChannelMutation, userChannels])
 
   return (
     <div
