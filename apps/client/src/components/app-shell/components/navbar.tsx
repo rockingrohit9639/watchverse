@@ -1,10 +1,11 @@
 import { Avatar, Dropdown, Tooltip } from 'antd'
 import clsx from 'clsx'
-import { BellOutlined, UserOutlined } from '@ant-design/icons'
+import { BellOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
 import { AiOutlineVideoCameraAdd } from 'react-icons/ai'
 import { useUser } from '~/hooks/use-user'
 import UpdateProfileModal from '~/components/update-profile-modal'
 import { ENV } from '~/utils/env'
+import CreateChannelModal from '~/components/create-channel-modal'
 
 type NavbarProps = {
   className?: string
@@ -50,6 +51,11 @@ export default function Navbar({ className, style }: NavbarProps) {
                   key: 'update-profile',
                   label: <UpdateProfileModal trigger={<div>Update Profile</div>} />,
                   icon: <UserOutlined />,
+                },
+                {
+                  key: 'create-channel',
+                  label: <CreateChannelModal trigger={<div>Create Channel</div>} />,
+                  icon: <PlusOutlined />,
                 },
               ],
             }}
