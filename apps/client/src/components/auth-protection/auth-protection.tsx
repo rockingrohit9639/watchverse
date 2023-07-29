@@ -7,7 +7,7 @@ type AuthProtectionProps = {
 export default function AuthProtection({ children }: AuthProtectionProps) {
   const location = useLocation()
   /** @TODO Check for you own user */
-  const user = false
+  const user = true
 
   if (user) {
     return children

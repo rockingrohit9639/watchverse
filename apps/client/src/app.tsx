@@ -1,7 +1,9 @@
-import { Suspense } from 'react'
+import React, { Suspense } from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom'
 import AppShell from './components/app-shell'
 import AuthProtection from './components/auth-protection'
+
+const Home = React.lazy(() => import('./pages/home'))
 
 function App() {
   return (
@@ -22,7 +24,7 @@ function App() {
             </AuthProtection>
           }
         >
-          {/* Add authenticated routes here (e.g. dashboard, profile, etc.) */}
+          <Route path="/" element={<Home />} />
         </Route>
 
         {/* Add unauthenticated routes here (e.g. login, signup) */}
