@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom'
+import { useAuth } from '~/hooks/use-auth'
 
 type AuthProtectionProps = {
   children: React.ReactElement
@@ -6,8 +7,7 @@ type AuthProtectionProps = {
 
 export default function AuthProtection({ children }: AuthProtectionProps) {
   const location = useLocation()
-  /** @TODO Check for you own user */
-  const user = true
+  const { user } = useAuth()
 
   if (user) {
     return children

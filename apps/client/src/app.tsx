@@ -4,6 +4,7 @@ import AppShell from './components/app-shell'
 import AuthProtection from './components/auth-protection'
 
 const Home = React.lazy(() => import('./pages/home'))
+const Login = React.lazy(() => import('./pages/login'))
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route path="/" element={<Home />} />
         </Route>
 
-        {/* Add unauthenticated routes here (e.g. login, signup) */}
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Suspense>
   )
