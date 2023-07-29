@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchLoggedInUser, login } from '~/queries/auth'
 import { ENV } from '~/utils/env'
 import { getErrorMessage } from '~/utils/error'
+import { QUERY_KEYS } from '~/utils/qk'
 
 export function useAuth() {
   const queryClient = useQueryClient()
@@ -14,7 +15,7 @@ export function useAuth() {
     data: user,
     remove: removeUserData,
     refetch: refetchUserData,
-  } = useQuery(['logged-in'], fetchLoggedInUser, {
+  } = useQuery([QUERY_KEYS['logged-in']], fetchLoggedInUser, {
     retry: false,
   })
 
@@ -25,7 +26,7 @@ export function useAuth() {
       window.localStorage.setItem(ENV.VITE_BEARER_TOKEN_KEY, data.accessToken)
 
       // update the user in the queryClient, so that you would automatically get user from useAuthContext
-      queryClient.setQueryData(['logged-in'], data.user)
+      queryClient.setQueryData([QUERY_KEYS['logged-in']], data.user)
     },
     onError: (error) => {
       message.error(getErrorMessage(error))

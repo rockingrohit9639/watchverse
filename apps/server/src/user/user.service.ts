@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common'
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
 import { User } from '@prisma/client'
 import { SignupDto } from '~/auth/auth.dto'
 import { PrismaService } from '~/prisma/prisma.service'
 import { USER_SELECT_FIELDS } from './user.fields'
 import { SanitizedUser } from './user.types'
+import { UpdateProfileDto } from './user.dto'
 
 @Injectable()
 export class UserService {
@@ -26,5 +27,22 @@ export class UserService {
 
   async findOneByEmail(email: string): Promise<User> {
     return this.prismaService.user.findFirst({ where: { email } })
+  }
+
+  async updateProfile(id: string, dto: UpdateProfileDto, user: SanitizedUser): Promise<SanitizedUser> {
+    const existingUser = await this.findOneById(id)
+    if (!existingUser) {
+      throw new NotFoundException('User not found!')
+    }
+
+    if (existingUser.id !== user.id) {
+      throw new ForbiddenException('You are not allowed to update this profile!')
+    }
+
+    return this.prismaService.user.update({
+      where: { id: user.id },
+      data: { name: dto.name, picture: dto.picture ? { connect: { id: dto.picture } } : undefined },
+      select: USER_SELECT_FIELDS,
+    })
   }
 }

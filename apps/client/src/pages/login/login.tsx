@@ -1,9 +1,9 @@
 import { Button, Form, Input } from 'antd'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
-import { useAuth } from '~/hooks/use-auth'
+import { useAuthContext } from '~/hooks/use-auth'
 
 export default function Login() {
-  const { user, loginMutation } = useAuth()
+  const { user, loginMutation } = useAuthContext()
   const [searchParams] = useSearchParams()
   const redirectTo = searchParams.get('redirectTo') ?? '/'
 

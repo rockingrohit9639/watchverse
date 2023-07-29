@@ -26,6 +26,8 @@ model User {
   comments             Comment[]
   views                View[]     @relation(name: "ViewedBy", fields: [viewsIds], references: [id])
   viewsIds             String[]   @db.ObjectId
+  picture              File?      @relation(name: "ProfilePicture", fields: [pictureId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  pictureId            String?    @db.ObjectId
 
   @@map("users")
 }
@@ -40,12 +42,13 @@ model File {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  uploadedBy      User      @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
-  uploadedById    String    @db.ObjectId
-  channelLogos    Channel[] @relation(name: "ChannelLogo")
-  channelBanners  Channel[] @relation(name: "ChannelBanner")
-  videos          Video[]   @relation(name: "Videos")
-  videoThumbnails Video[]   @relation(name: "VideoThumbnails")
+  uploadedBy       User      @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedById     String    @db.ObjectId
+  channelLogos     Channel[] @relation(name: "ChannelLogo")
+  channelBanners   Channel[] @relation(name: "ChannelBanner")
+  videos           Video[]   @relation(name: "Videos")
+  videoThumbnails  Video[]   @relation(name: "VideoThumbnails")
+  userWithProfiles User[]    @relation(name: "ProfilePicture")
 
   @@map("files")
 }

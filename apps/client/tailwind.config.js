@@ -7,6 +7,7 @@ export default {
         background: '#0C0C0C',
         primary: '#ff002e',
         'text-primary': '#ACACAF',
+        base: '#212020',
       },
     },
   },
