@@ -11,10 +11,16 @@ import { CreateChannelDto, UpdateChannelDto } from './channel.dto'
 import { SanitizedUser } from '~/user/user.types'
 import { USER_SELECT_FIELDS } from '~/user/user.fields'
 import { FileService } from '~/file/file.service'
+import { NotificationService } from '~/notification/notification.service'
+import { slugify } from '~/utils/slugify'
 
 @Injectable()
 export class ChannelService {
-  constructor(private readonly prismaService: PrismaService, private readonly fileService: FileService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly fileService: FileService,
+    private readonly notificationService: NotificationService,
+  ) {}
 
   async createChannel(dto: CreateChannelDto, user: SanitizedUser): Promise<Channel> {
     const existingChannel = await this.prismaService.channel.findFirst({ where: { name: dto.name } })
@@ -33,8 +39,7 @@ export class ChannelService {
     }
 
     const createdChannels = await this.prismaService.channel.count({ where: { createdById: user.id } })
-
-    return this.prismaService.channel.create({
+    const channelCreated = await this.prismaService.channel.create({
       data: {
         name: dto.name,
         description: dto.description,
@@ -44,6 +49,14 @@ export class ChannelService {
         createdBy: { connect: { id: user.id } },
       },
     })
+
+    /** Each time a channel is created, a topic is created for the channel so that all its subscribers can receive notifications   */
+    await this.notificationService.createTopic(
+      this.getChannelKey(channelCreated.name, channelCreated.id),
+      channelCreated.name,
+    )
+
+    return channelCreated
   }
 
   async updateChannel(id: string, dto: UpdateChannelDto, user: SanitizedUser): Promise<Channel> {
@@ -96,12 +109,16 @@ export class ChannelService {
 
     const isSubscribed = await this.prismaService.channel.findFirst({ where: { subscriberIds: { has: user.id } } })
     if (isSubscribed) {
+      /** Remove subscriber to receive notifications */
+      await this.notificationService.removeSubscriber(this.getChannelKey(channel.name, channel.id), user.id)
       return this.prismaService.channel.update({
         where: { id: channel.id },
         data: { subscribers: { disconnect: { id: user.id } } },
       })
     }
 
+    /** Add subscriber to receive notifications  */
+    await this.notificationService.addSubscriber(this.getChannelKey(channel.name, channel.id), user.id)
     return this.prismaService.channel.update({
       where: { id: channel.id },
       data: { subscribers: { connect: { id: user.id } } },
@@ -131,5 +148,10 @@ export class ChannelService {
     }
 
     return channel.subscribers
+  }
+
+  /** Key format -> channel-name-channel-id  */
+  getChannelKey(name: string, id: string): string {
+    return slugify(`${name}-${id}`)
   }
 }

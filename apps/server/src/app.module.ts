@@ -11,6 +11,7 @@ import { PlaylistModule } from './playlist/playlist.module'
 import { LikeModule } from './like/like.module'
 import { CommentModule } from './comment/comment.module'
 import { ViewModule } from './view/view.module'
+import { NotificationModule } from './notification/notification.module'
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { ViewModule } from './view/view.module'
     LikeModule,
     CommentModule,
     ViewModule,
+    NotificationModule,
   ],
   providers: [],
 })

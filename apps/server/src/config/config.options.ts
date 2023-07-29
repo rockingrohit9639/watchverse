@@ -10,6 +10,7 @@ const validationSchema = joi.object({
   UPLOAD_DEST: joi.string().required(),
   UPLOAD_IMAGE_MAX_SIZE: joi.number().default(IMAGE_MAX_FILE_SIZE),
   UPLOAD_VIDEO_MAX_SIZE: joi.number().default(VIDEO_MAX_FILE_SIZE),
+  NOVU_API_KEY: joi.string().required(),
 })
 
 export type EnvironmentVars = joi.InterfaceFrom<typeof validationSchema>

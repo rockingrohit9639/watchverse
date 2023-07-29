@@ -6,6 +6,7 @@ import { SanitizedUser } from '~/user/user.types'
 import { FileService } from '~/file/file.service'
 import { ChannelService } from '~/channel/channel.service'
 import { PlaylistService } from '~/playlist/playlist.service'
+import { NotificationService } from '~/notification/notification.service'
 
 @Injectable()
 export class VideoService {
@@ -14,6 +15,7 @@ export class VideoService {
     private readonly fileService: FileService,
     private readonly channelService: ChannelService,
     private readonly playlistService: PlaylistService,
+    private readonly notificationService: NotificationService,
   ) {}
 
   async uploadVideo(dto: UploadVideoDto, user: SanitizedUser): Promise<Video> {
@@ -23,7 +25,8 @@ export class VideoService {
     }
 
     const activeChannel = await this.channelService.findActiveChannel(user.id)
-    return this.prismaService.video.create({
+    const channelKey = this.channelService.getChannelKey(activeChannel.name, activeChannel.id)
+    const videoUploaded = await this.prismaService.video.create({
       data: {
         title: dto.title,
         description: dto.description,
@@ -34,6 +37,14 @@ export class VideoService {
         thumbnail: { connect: { id: dto.thumbnail } },
       },
     })
+
+    /** Sending notification to channel subscribers */
+    this.notificationService.sendTopicNotifications(
+      channelKey,
+      `${user.name} uploaded a new video.\n${videoUploaded.title}`,
+    )
+
+    return videoUploaded
   }
 
   async findOneById(id: string): Promise<Video> {

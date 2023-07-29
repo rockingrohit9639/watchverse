@@ -7,6 +7,7 @@ import { AuthService } from './auth.service'
 import { UserModule } from '~/user/user.module'
 import { createJwtOptions } from '~/config/jwt.options'
 import { JwtStrategy } from './jwt/jwt.strategy'
+import { NotificationModule } from '~/notification/notification.module'
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { JwtStrategy } from './jwt/jwt.strategy'
       inject: [ConfigService],
     }),
     UserModule,
+    NotificationModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

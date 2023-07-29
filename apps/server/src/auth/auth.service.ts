@@ -6,10 +6,15 @@ import { LoginDto, SignupDto } from './auth.dto'
 import { UserService } from '~/user/user.service'
 import { JwtPayload } from './auth.types'
 import { SanitizedUser } from '~/user/user.types'
+import { NotificationService } from '~/notification/notification.service'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+    private readonly notificationService: NotificationService,
+  ) {}
 
   async login(dto: LoginDto): Promise<{ user: SanitizedUser; accessToken: string }> {
     const user = await this.userService.findOneByEmail(dto.email)
@@ -37,6 +42,9 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hashSync(dto.password, 10)
     const user = await this.userService.createUser({ ...dto, password: hashedPassword })
+    /** subscribing notifications channel */
+    await this.notificationService.createSubscriber(user)
+
     const payload = { id: user.id, email: user.email } satisfies JwtPayload
     return {
       user,
