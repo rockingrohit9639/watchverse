@@ -6,6 +6,7 @@ export type Channel = {
   description: string
   logoId: string
   bannerId?: string
+  isActive: boolean
   createdBy: User
   createdAt: string
   updatedAt: string
