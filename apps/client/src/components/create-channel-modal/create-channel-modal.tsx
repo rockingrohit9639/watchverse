@@ -1,7 +1,7 @@
 import { Form, Input } from 'antd'
 import EntityMutationModal from '../entity-mutation-modal'
 import FileUploader from '../file-uploader/file-uploader'
-import { ALLOWED_IMAGE_EXTENSIONS } from '~/utils/file'
+import { ALLOWED_IMAGE_MIMETYPES } from '~/utils/file'
 import { createChannel } from '~/queries/channel'
 import { Channel } from '~/types/channel'
 import { QUERY_KEYS } from '~/utils/qk'
@@ -48,11 +48,11 @@ export default function CreateChannelModal({ trigger }: CreateChannelModalProps)
 
       <div className="flex items-center gap-4">
         <Form.Item name="logo" label="Logo" rules={[{ required: true, message: 'Channel logo is required!' }]}>
-          <FileUploader maxCount={1} accept={ALLOWED_IMAGE_EXTENSIONS} />
+          <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
         </Form.Item>
 
         <Form.Item name="banner" label="Banner">
-          <FileUploader maxCount={1} accept={ALLOWED_IMAGE_EXTENSIONS} />
+          <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
         </Form.Item>
       </div>
     </EntityMutationModal>

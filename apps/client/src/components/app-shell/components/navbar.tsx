@@ -5,6 +5,7 @@ import { AiOutlineVideoCameraAdd } from 'react-icons/ai'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useMemo } from 'react'
 import { ItemType } from 'antd/es/menu/hooks/useItems'
+import { Link } from 'react-router-dom'
 import { useUser } from '~/hooks/use-user'
 import UpdateProfileModal from '~/components/update-profile-modal'
 import { ENV } from '~/utils/env'
@@ -84,9 +85,9 @@ export default function Navbar({ className, style }: NavbarProps) {
         <div className="text-xl font-bold text-primary">Watchverse</div>
         <div className="flex items-center gap-2">
           <Tooltip title="Upload Video">
-            <div className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
+            <Link to="/upload-video" className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
               <AiOutlineVideoCameraAdd />
-            </div>
+            </Link>
           </Tooltip>
 
           <Tooltip title="Notification">

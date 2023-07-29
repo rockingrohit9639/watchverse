@@ -5,7 +5,7 @@ import { UpdateProfileDto } from '~/types/user'
 import { QUERY_KEYS } from '~/utils/qk'
 import FileUploader from '../file-uploader'
 import EntityMutationModal from '../entity-mutation-modal'
-import { ALLOWED_IMAGE_EXTENSIONS } from '~/utils/file'
+import { ALLOWED_IMAGE_MIMETYPES } from '~/utils/file'
 
 type UpdateProfileModalProps = {
   trigger: React.ReactElement<{ onClick: () => void }>
@@ -29,7 +29,7 @@ export default function UpdateProfileModal({ trigger }: UpdateProfileModalProps)
       </Form.Item>
 
       <Form.Item name="picture" label="Profile Picture">
-        <FileUploader maxCount={1} accept={ALLOWED_IMAGE_EXTENSIONS} />
+        <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
       </Form.Item>
     </EntityMutationModal>
   )

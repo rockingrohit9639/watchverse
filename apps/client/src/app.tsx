@@ -6,6 +6,7 @@ import AuthProtection from './components/auth-protection'
 const Home = React.lazy(() => import('./pages/home'))
 const Login = React.lazy(() => import('./pages/login'))
 const Signup = React.lazy(() => import('./pages/signup'))
+const UploadVideo = React.lazy(() => import('./pages/upload-video'))
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           }
         >
           <Route path="/" element={<Home />} />
+          <Route path="/upload-video" element={<UploadVideo />} />
         </Route>
 
         <Route path="/login" element={<Login />} />
