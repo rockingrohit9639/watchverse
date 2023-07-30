@@ -2,6 +2,10 @@ import { Form, Input, Select, message } from 'antd'
 import EntityMutationModal from '../entity-mutation-modal'
 import { Visibility } from '~/types/video'
 import { createPlaylist } from '~/queries/playlist'
+import FileUploader from '../file-uploader'
+import { ALLOWED_IMAGE_MIMETYPES } from '~/utils/file'
+import { QUERY_KEYS } from '~/utils/qk'
+import { Playlist } from '~/types/playlist'
 
 type CreatePlaylistProps = {
   className?: string
@@ -19,7 +23,12 @@ export default function CreatePlaylist({ className, style, trigger }: CreatePlay
       trigger={trigger}
       initialValues={{ visibility: Visibility.PRIVATE }}
       mutationFn={createPlaylist}
-      onSuccess={() => {
+      onSuccess={(createdPlaylist: Playlist, queryClient) => {
+        queryClient.setQueryData<Playlist[]>([QUERY_KEYS.playlists], (prev) => {
+          if (!prev) return []
+
+          return [...prev, createdPlaylist]
+        })
         message.success('Playlist created successfully!')
       }}
     >
@@ -54,6 +63,10 @@ export default function CreatePlaylist({ className, style, trigger }: CreatePlay
           placeholder="Select visibility"
           options={Object.keys(Visibility).map((key) => ({ label: key, value: key }))}
         />
+      </Form.Item>
+
+      <Form.Item name="thumbnail" label="Thumbnail" rules={[{ required: true, message: 'Thumbnail is required!' }]}>
+        <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
       </Form.Item>
     </EntityMutationModal>
   )

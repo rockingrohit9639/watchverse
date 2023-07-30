@@ -14,7 +14,7 @@ export default function AppShell({ children }: AppShellProps) {
       <Navbar />
       <div className="grid grid-cols-12" style={{ marginTop: Navbar.HEIGHT }}>
         <div className="col-span-1 hidden sm:block">
-          <div className="col-span-1 border-r border-gray-50/10 flex-center gap-4 flex-col fixed h-screen w-24">
+          <div className="border-r border-gray-50/10 flex-center gap-4 flex-col fixed h-screen w-24">
             <NavLink to="/" className={({ isActive }) => clsx('flex items-center flex-col', isActive && 'text-white')}>
               <AiOutlineHome className="w-5 h-5" />
               <div className="text-xs">Home</div>

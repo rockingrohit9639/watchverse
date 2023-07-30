@@ -1,4 +1,5 @@
 import { Channel } from './channel'
+import { File } from './file'
 import { User } from './user'
 import { Video, Visibility } from './video'
 
@@ -15,6 +16,8 @@ export type Playlist = {
   channelId: string
   videos: Video[]
   videoIds: string[]
+  thumbnail: File
+  thumbnailId: string
 }
 
 export type CreatePlaylistDto = Pick<Playlist, 'title' | 'description' | 'visibility'>

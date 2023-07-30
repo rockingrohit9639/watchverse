@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types'
 import { Visibility } from '@prisma/client'
-import { IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator'
+import { IsEnum, IsMongoId, IsOptional, IsString, MaxLength, MinLength } from 'class-validator'
 
 export class CreatePlaylistDto {
   @IsString()
@@ -16,6 +16,9 @@ export class CreatePlaylistDto {
 
   @IsEnum(Visibility)
   visibility: Visibility
+
+  @IsMongoId()
+  thumbnail: string
 }
 
 export class UpdatePlaylistDto extends PartialType(CreatePlaylistDto) {}
