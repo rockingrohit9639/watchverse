@@ -13,6 +13,8 @@ type CreateChannelModalProps = {
 export default function CreateChannelModal({ trigger }: CreateChannelModalProps) {
   return (
     <EntityMutationModal
+      title="Create Channel"
+      okText="Create"
       trigger={trigger}
       mutationFn={createChannel}
       onSuccess={(data: Channel, queryClient) => {

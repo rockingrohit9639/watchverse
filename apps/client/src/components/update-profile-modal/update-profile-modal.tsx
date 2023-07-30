@@ -16,6 +16,8 @@ export default function UpdateProfileModal({ trigger }: UpdateProfileModalProps)
 
   return (
     <EntityMutationModal
+      title="Update Profile"
+      okText="Update"
       mutationFn={(dto: UpdateProfileDto) => updateProfile(user.id, dto)}
       trigger={trigger}
       initialValues={{ name: user.name }}

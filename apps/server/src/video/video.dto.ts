@@ -1,5 +1,5 @@
 import { PartialType, PickType } from '@nestjs/mapped-types'
-import { VideoVisibility } from '@prisma/client'
+import { Visibility } from '@prisma/client'
 import { IsEnum, IsMongoId, IsString, MaxLength, MinLength } from 'class-validator'
 
 export class UploadVideoDto {
@@ -13,8 +13,8 @@ export class UploadVideoDto {
   @MaxLength(2000)
   description: string
 
-  @IsEnum(VideoVisibility)
-  visibility: VideoVisibility
+  @IsEnum(Visibility)
+  visibility: Visibility
 
   @IsMongoId()
   video: string

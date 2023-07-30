@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useMemo } from 'react'
 import { ItemType } from 'antd/es/menu/hooks/useItems'
 import { Link } from 'react-router-dom'
+import { MdPlaylistAdd } from 'react-icons/md'
 import { useUser } from '~/hooks/use-user'
 import UpdateProfileModal from '~/components/update-profile-modal'
 import { ENV } from '~/utils/env'
@@ -13,6 +14,7 @@ import CreateChannelModal from '~/components/create-channel-modal'
 import { fetchUserChannels, updateActiveChannel } from '~/queries/channel'
 import useError from '~/hooks/use-error'
 import { QUERY_KEYS } from '~/utils/qk'
+import CreatePlaylist from '~/components/create-playlist'
 
 type NavbarProps = {
   className?: string
@@ -45,6 +47,11 @@ export default function Navbar({ className, style }: NavbarProps) {
         key: 'create-channel',
         label: <CreateChannelModal trigger={<div>Create Channel</div>} />,
         icon: <PlusOutlined />,
+      },
+      {
+        key: 'create-playlist',
+        label: <CreatePlaylist trigger={<div>Create Playlist</div>} />,
+        icon: <MdPlaylistAdd />,
       },
       {
         key: 'divider',

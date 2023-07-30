@@ -2,7 +2,7 @@ import { Channel } from './channel'
 import { File } from './file'
 import { User } from './user'
 
-export const VideoVisibility = {
+export const Visibility = {
   PRIVATE: 'PRIVATE',
   PUBLIC: 'PUBLIC',
 }
@@ -11,7 +11,7 @@ export type Video = {
   id: string
   title: string
   description: string
-  visibility: keyof typeof VideoVisibility
+  visibility: keyof typeof Visibility
   video: File
   videoId: string
   likes: number

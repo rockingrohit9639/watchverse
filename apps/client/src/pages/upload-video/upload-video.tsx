@@ -6,7 +6,7 @@ import FileUploader from '~/components/file-uploader'
 import Page from '~/components/page'
 import useError from '~/hooks/use-error'
 import { uploadVideo } from '~/queries/video'
-import { VideoVisibility } from '~/types/video'
+import { Visibility } from '~/types/video'
 import { ALLOWED_IMAGE_MIMETYPES, ALLOWED_VIDEO_MIMETYPES } from '~/utils/file'
 
 export default function UploadVideo() {
@@ -27,7 +27,7 @@ export default function UploadVideo() {
         layout="vertical"
         className="grid grid-cols-4 gap-4"
         initialValues={{
-          visibility: VideoVisibility.PRIVATE,
+          visibility: Visibility.PRIVATE,
         }}
         onFinish={uploadVideoMutation.mutate}
         disabled={uploadVideoMutation.isLoading}
@@ -69,7 +69,7 @@ export default function UploadVideo() {
           >
             <Select
               placeholder="Video visibility"
-              options={Object.keys(VideoVisibility).map((key) => ({ value: key, label: key }))}
+              options={Object.keys(Visibility).map((key) => ({ value: key, label: key }))}
             />
           </Form.Item>
 

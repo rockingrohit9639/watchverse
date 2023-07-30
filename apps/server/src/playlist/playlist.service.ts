@@ -17,6 +17,7 @@ export class PlaylistService {
         description: dto.description,
         createdBy: { connect: { id: user.id } },
         channel: { connect: { id: activeChannel.id } },
+        visibility: dto.visibility,
       },
     })
   }

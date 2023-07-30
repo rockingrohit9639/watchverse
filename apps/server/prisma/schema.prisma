@@ -75,18 +75,18 @@ model Channel {
   @@map("channels")
 }
 
-enum VideoVisibility {
+enum Visibility {
   PRIVATE
   PUBLIC
 }
 
 model Video {
-  id          String          @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   title       String
   description String
-  visibility  VideoVisibility @default(PRIVATE)
+  visibility  Visibility @default(PRIVATE)
 
   likes Int @default(0)
   views Int @default(0)
@@ -110,11 +110,12 @@ model Video {
 }
 
 model Playlist {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   title       String
   description String?
+  visibility  Visibility @default(PRIVATE)
 
   createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdById String   @db.ObjectId
