@@ -7,6 +7,7 @@ import { FileService } from '~/file/file.service'
 import { ChannelService } from '~/channel/channel.service'
 import { PlaylistService } from '~/playlist/playlist.service'
 import { NotificationService } from '~/notification/notification.service'
+import { VIDEO_INCLUDE_FIELDS } from './video.fields'
 
 @Injectable()
 export class VideoService {
@@ -70,7 +71,7 @@ export class VideoService {
     })
   }
 
-  findAll(user: SanitizedUser): Promise<Video[]> {
+  findUserVideos(user: SanitizedUser): Promise<Video[]> {
     return this.prismaService.video.findMany({ where: { uploadedById: user.id } })
   }
 
@@ -103,6 +104,10 @@ export class VideoService {
   async findPlaylistVideos(playlistId: string): Promise<Video[]> {
     const playlist = await this.playlistService.findOneById(playlistId)
     return this.prismaService.video.findMany({ where: { playlists: { some: { id: playlist.id } } } })
+  }
+
+  findAll(): Promise<Video[]> {
+    return this.prismaService.video.findMany({ include: VIDEO_INCLUDE_FIELDS })
   }
 
   increaseLike(id: string): Promise<Video> {

@@ -27,8 +27,8 @@ export class VideoController {
   }
 
   @Get()
-  findAll(@GetUser() user: SanitizedUser): Promise<Video[]> {
-    return this.videoService.findAll(user)
+  findUserVideos(@GetUser() user: SanitizedUser): Promise<Video[]> {
+    return this.videoService.findUserVideos(user)
   }
 
   @Delete(':id')
@@ -48,6 +48,11 @@ export class VideoController {
   @Get('playlist/:playlistId')
   findPlaylistVideos(@Param('playlistId') playlistId: string): Promise<Video[]> {
     return this.videoService.findPlaylistVideos(playlistId)
+  }
+
+  @Get('feed')
+  findAll(): Promise<Video[]> {
+    return this.videoService.findAll()
   }
 
   @Get(':id')

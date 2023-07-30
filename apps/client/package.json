@@ -17,6 +17,7 @@
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
     "constate": "^3.3.2",
+    "moment": "^2.29.4",
     "patch-package": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -22,6 +22,8 @@ export type Video = {
   channelId: string
   thumbnail: File
   thumbnailId: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type UploadVideoDto = Pick<Video, 'title' | 'description' | 'visibility'> & {

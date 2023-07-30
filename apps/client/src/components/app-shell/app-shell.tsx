@@ -14,10 +14,10 @@ export default function AppShell({ children }: AppShellProps) {
       <Navbar />
       <div className="grid grid-cols-12" style={{ marginTop: Navbar.HEIGHT }}>
         <div className="col-span-1">
-          <div className="col-span-1 border-r border-gray-50/10 flex-center gap-4 flex-col fixed h-screen w-20">
+          <div className="col-span-1 border-r border-gray-50/10 flex-center gap-4 flex-col fixed h-screen w-24">
             <NavLink to="/" className={({ isActive }) => clsx('flex items-center flex-col', isActive && 'text-white')}>
               <AiOutlineHome className="w-5 h-5" />
-              <div className="text-xs font-thin">Test</div>
+              <div className="text-xs">Home</div>
             </NavLink>
 
             <NavLink
@@ -25,7 +25,7 @@ export default function AppShell({ children }: AppShellProps) {
               className={({ isActive }) => clsx('flex items-center flex-col', isActive && 'text-white')}
             >
               <MdOutlineSubscriptions className="w-5 h-5" />
-              <div className="text-xs font-thin">Test</div>
+              <div className="text-xs">Subscriptions</div>
             </NavLink>
 
             <NavLink
@@ -33,7 +33,7 @@ export default function AppShell({ children }: AppShellProps) {
               className={({ isActive }) => clsx('flex items-center flex-col', isActive && 'text-white')}
             >
               <MdOutlineVideoLibrary className="w-5 h-5" />
-              <div className="text-xs font-thin">Library</div>
+              <div className="text-xs">Library</div>
             </NavLink>
           </div>
         </div>
