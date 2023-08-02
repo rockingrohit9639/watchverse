@@ -19,7 +19,7 @@ export default function Playlist({ className, style, playlist }: PlaylistProps) 
           alt="thumbnail"
           className="w-full h-full object-cover aspect-video rounded-lg"
         />
-        <div className="absolute bottom-0 px-4 py-1 bg-red-50/20 w-full rounded-br-lg rounded-bl-lg flex items-center justify-between">
+        <div className="absolute bottom-0 px-4 py-1 bg-red-300/50 w-full rounded-br-lg rounded-bl-lg flex items-center justify-between">
           <div>
             <MdPlaylistPlay />
           </div>

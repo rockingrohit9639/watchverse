@@ -35,4 +35,9 @@ export class PlaylistController {
   findActiveChannelPlaylist(@GetUser() user: SanitizedUser): Promise<Playlist[]> {
     return this.playlistService.findActiveChannelPlaylist(user)
   }
+
+  @Get(':id')
+  findOneById(@Param('id') id: string): Promise<Playlist> {
+    return this.playlistService.findOneById(id)
+  }
 }

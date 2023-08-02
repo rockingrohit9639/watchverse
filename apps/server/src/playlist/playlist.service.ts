@@ -6,6 +6,7 @@ import { SanitizedUser } from '~/user/user.types'
 import { ChannelService } from '~/channel/channel.service'
 import { FileService } from '~/file/file.service'
 import { PLAYLIST_INCLUDE } from './playlist.fields'
+import { VIDEO_INCLUDE_FIELDS } from '~/video/video.fields'
 
 @Injectable()
 export class PlaylistService {
@@ -31,11 +32,15 @@ export class PlaylistService {
         thumbnail: { connect: { id: dto.thumbnail } },
         channel: { connect: { id: activeChannel.id } },
       },
+      include: PLAYLIST_INCLUDE,
     })
   }
 
   async findOneById(id: string): Promise<Playlist> {
-    const playlist = await this.prismaService.playlist.findFirst({ where: { id } })
+    const playlist = await this.prismaService.playlist.findFirst({
+      where: { id },
+      include: { ...PLAYLIST_INCLUDE, videos: { include: VIDEO_INCLUDE_FIELDS } },
+    })
     if (!playlist) {
       throw new NotFoundException('Playlist not found!')
     }

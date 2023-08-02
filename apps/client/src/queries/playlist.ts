@@ -10,3 +10,8 @@ export async function findActiveChannelPlaylists() {
   const { data } = await apiClient.get<Playlist[]>('playlist')
   return data
 }
+
+export async function findPlaylist(id: string) {
+  const { data } = await apiClient.get<Playlist>(`playlist/${id}`)
+  return data
+}
