@@ -1,12 +1,12 @@
 import { Avatar, Dropdown, Tooltip } from 'antd'
 import clsx from 'clsx'
 import { BellOutlined, CheckOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
-import { AiOutlineVideoCameraAdd } from 'react-icons/ai'
+import { AiOutlineHome, AiOutlineVideoCameraAdd } from 'react-icons/ai'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useMemo } from 'react'
 import { ItemType } from 'antd/es/menu/hooks/useItems'
 import { Link } from 'react-router-dom'
-import { MdPlaylistAdd } from 'react-icons/md'
+import { MdOutlineVideoLibrary, MdPlaylistAdd } from 'react-icons/md'
 import { useUser } from '~/hooks/use-user'
 import UpdateProfileModal from '~/components/update-profile-modal'
 import { ENV } from '~/utils/env'
@@ -91,6 +91,18 @@ export default function Navbar({ className, style }: NavbarProps) {
       <div className="max-w-screen-lg mx-auto w-full px-4  h-full  flex items-center justify-between">
         <div className="text-xl font-bold text-primary">Watchverse</div>
         <div className="flex items-center gap-2">
+          <Tooltip title="Home">
+            <Link to="/" className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
+              <AiOutlineHome />
+            </Link>
+          </Tooltip>
+
+          <Tooltip title="Library">
+            <Link to="/library" className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
+              <MdOutlineVideoLibrary />
+            </Link>
+          </Tooltip>
+
           <Tooltip title="Upload Video">
             <Link to="/upload-video" className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
               <AiOutlineVideoCameraAdd />

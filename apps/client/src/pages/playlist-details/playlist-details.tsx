@@ -32,13 +32,13 @@ export default function PlaylistDetails() {
   }
 
   return (
-    <Page className="grid grid-cols-3 gap-4">
+    <Page className="space-y-2">
       <div className="space-y-2 border border-gray-50/10 rounded-lg p-4 bg-gray-500/10">
         <div className="font-bold">{playlist.title}</div>
         <img
           src={`${ENV.VITE_API_BASE_URL}/file/download/${playlist.thumbnailId}`}
           alt="thumbnail"
-          className="aspect-video object-cover rounded-lg"
+          className="aspect-video object-cover rounded-lg w-full"
         />
         <div>{playlist.description}</div>
         <div>{playlist.channel.name}</div>
@@ -48,6 +48,7 @@ export default function PlaylistDetails() {
           <div className="text-sm">Updated on {moment(playlist.updatedAt).format(DATE_FORMAT)}</div>
         </div>
       </div>
+
       <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2">
         {playlist.videos.map((video) => (
           <Video key={video.id} video={video} />

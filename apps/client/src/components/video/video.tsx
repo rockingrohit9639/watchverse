@@ -15,10 +15,10 @@ type VideoProps = {
 export default function Video({ className, style, video }: VideoProps) {
   return (
     <div
-      className={clsx('space-y-2 cursor-pointer video-box group bg-gray-500/10 rounded-lg', className)}
+      className={clsx('space-y-2 cursor-pointer group border border-gray-50/10 rounded-lg bg-gray-500/10', className)}
       style={style}
     >
-      <Link to={`/video/${video.id}`}>
+      <Link to={`/video/${video.id}`} title={video.title}>
         <img
           src={`${ENV.VITE_API_BASE_URL}/file/download/${video.thumbnailId}`}
           className="aspect-video object-cover rounded-lg"
@@ -28,7 +28,9 @@ export default function Video({ className, style, video }: VideoProps) {
       <div className="p-4">
         <div className="flex justify-between">
           <div className="flex gap-2">
-            <Avatar src={`${ENV.VITE_API_BASE_URL}/file/download/${video.uploadedById}`}>U</Avatar>
+            <Avatar src={`${ENV.VITE_API_BASE_URL}/file/download/${video.uploadedById}`} className="w-8 h-8">
+              U
+            </Avatar>
             <div className="font-bold">{video.title}</div>
           </div>
           <div className="opacity-0 group-hover:opacity-100">
