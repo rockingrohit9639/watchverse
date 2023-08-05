@@ -106,6 +106,11 @@ export class VideoService {
     return this.prismaService.video.findMany({ where: { playlists: { some: { id: playlist.id } } } })
   }
 
+  async findActiveChannelVideos(user: SanitizedUser): Promise<Video[]> {
+    const activeChannel = await this.channelService.findActiveChannel(user.id)
+    return this.prismaService.video.findMany({ where: { channelId: activeChannel.id }, include: VIDEO_INCLUDE_FIELDS })
+  }
+
   findAll(): Promise<Video[]> {
     return this.prismaService.video.findMany({ include: VIDEO_INCLUDE_FIELDS })
   }

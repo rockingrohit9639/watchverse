@@ -55,6 +55,11 @@ export class VideoController {
     return this.videoService.findAll()
   }
 
+  @Get('active')
+  findActiveChannelVideos(@GetUser() user: SanitizedUser): Promise<Video[]> {
+    return this.videoService.findActiveChannelVideos(user)
+  }
+
   @Get(':id')
   findOneById(@Param('id') id: string): Promise<Video> {
     return this.videoService.findOneById(id)

@@ -15,3 +15,8 @@ export async function findChanelVideos(channelId: string) {
   const { data } = await apiClient.get<Video[]>(`video/channel/${channelId}`)
   return data
 }
+
+export async function findActiveChannelVideos() {
+  const { data } = await apiClient.get<Video[]>('video/active')
+  return data
+}
