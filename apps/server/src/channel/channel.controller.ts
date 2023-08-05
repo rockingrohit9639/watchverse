@@ -5,6 +5,7 @@ import { CreateChannelDto, UpdateChannelDto } from './channel.dto'
 import { GetUser } from '~/auth/user.decorator'
 import { SanitizedUser } from '~/user/user.types'
 import { JwtGuard } from '~/auth/jwt/jwt.guard'
+import { ChannelStats } from './channel.type'
 
 @UseGuards(JwtGuard)
 @Controller('channel')
@@ -48,6 +49,11 @@ export class ChannelController {
     }[]
   > {
     return this.channelService.findSubscribers(id, user)
+  }
+
+  @Get('stats/:id')
+  getChannelStats(@Param('id') id: string): Promise<ChannelStats> {
+    return this.channelService.getChannelStats(id)
   }
 
   @Get(':id')

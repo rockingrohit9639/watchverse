@@ -1,4 +1,5 @@
 import { User } from './user'
+import { Video } from './video'
 
 export type Channel = {
   id: string
@@ -10,9 +11,19 @@ export type Channel = {
   createdBy: User
   createdAt: string
   updatedAt: string
+  videos: Video[]
+  subscribers: User[]
+  subscriberIds: string[]
 }
 
 export type CreateChannelDto = Pick<Channel, 'name' | 'description'> & {
   logo: string
   banner?: string
+}
+
+export type ChannelStats = {
+  joinedAt: Date
+  totalVideos: number
+  totalViews: number
+  totalSubscribers: number
 }

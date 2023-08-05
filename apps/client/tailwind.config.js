@@ -6,7 +6,8 @@ export default {
       colors: {
         background: '#0C0C0C',
         primary: '#ff002e',
-        'text-primary': '#ACACAF',
+        'text-primary': '#FFF',
+        'text-secondary': '#aaa',
         base: '#212020',
       },
     },

@@ -25,7 +25,7 @@ export default function Video({ className, style, video }: VideoProps) {
         />
       </Link>
 
-      <div className="p-4">
+      <div className="p-4 space-y-2">
         <div className="flex justify-between">
           <div className="flex gap-2">
             <Avatar src={`${ENV.VITE_API_BASE_URL}/file/download/${video.uploadedById}`} className="w-8 h-8">
@@ -39,7 +39,9 @@ export default function Video({ className, style, video }: VideoProps) {
         </div>
 
         <div>
-          <div>{video.channel.name}</div>
+          <Link to={`/channel/${video.channelId}`} title={video.channel.name}>
+            {video.channel.name}
+          </Link>
           <div className="flex gap-2">
             <div>{video.views} views</div>
             <div>{moment(video.createdAt).fromNow()}</div>

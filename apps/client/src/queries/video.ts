@@ -10,3 +10,8 @@ export async function fetchFeed() {
   const { data } = await apiClient.get<Video[]>('video/feed')
   return data
 }
+
+export async function findChanelVideos(channelId: string) {
+  const { data } = await apiClient.get<Video[]>(`video/channel/${channelId}`)
+  return data
+}

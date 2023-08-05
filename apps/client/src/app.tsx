@@ -9,6 +9,7 @@ const Signup = React.lazy(() => import('./pages/signup'))
 const UploadVideo = React.lazy(() => import('./pages/upload-video'))
 const Library = React.lazy(() => import('./pages/library'))
 const PlaylistDetails = React.lazy(() => import('./pages/playlist-details'))
+const ChannelDetails = React.lazy(() => import('./pages/channel-details'))
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/upload-video" element={<UploadVideo />} />
           <Route path="/library" element={<Library />} />
           <Route path="/playlist/:id" element={<PlaylistDetails />} />
+          <Route path="/channel/:id" element={<ChannelDetails />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

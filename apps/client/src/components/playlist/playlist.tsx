@@ -28,7 +28,13 @@ export default function Playlist({ className, style, playlist }: PlaylistProps) 
       </div>
       <div>
         <div className="text-lg font-medium">{playlist.title}</div>
-        <div className="mb-2 text-gray-400/60">{playlist.channel.name}</div>
+        <Link
+          to={`/channel/${playlist.channel.id}`}
+          title={playlist.channel.name}
+          className="mb-2 text-gray-400/60 block"
+        >
+          {playlist.channel.name}
+        </Link>
         <Link to={`/playlist/${playlist.id}`}>View full playlist</Link>
       </div>
     </div>

@@ -77,7 +77,7 @@ export class VideoService {
 
   async findAllChannelVideos(channelId: string): Promise<Video[]> {
     const channel = await this.channelService.findOneById(channelId)
-    return this.prismaService.video.findMany({ where: { channelId: channel.id } })
+    return this.prismaService.video.findMany({ where: { channelId: channel.id }, include: VIDEO_INCLUDE_FIELDS })
   }
 
   async delete(id: string, user: SanitizedUser): Promise<Video> {

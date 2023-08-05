@@ -13,6 +13,7 @@ import { USER_SELECT_FIELDS } from '~/user/user.fields'
 import { FileService } from '~/file/file.service'
 import { NotificationService } from '~/notification/notification.service'
 import { slugify } from '~/utils/slugify'
+import { ChannelStats } from './channel.type'
 
 @Injectable()
 export class ChannelService {
@@ -161,6 +162,24 @@ export class ChannelService {
     return {
       previousActive,
       newActive,
+    }
+  }
+
+  async getChannelStats(id: string): Promise<ChannelStats> {
+    const channel = await this.findOneById(id)
+    const totalVideos = await this.prismaService.video.count({ where: { channelId: channel.id } })
+    const {
+      _sum: { views: totalViews },
+    } = await this.prismaService.video.aggregate({
+      where: { channelId: channel.id },
+      _sum: { views: true },
+    })
+
+    return {
+      joinedAt: channel.createdAt,
+      totalVideos,
+      totalViews,
+      totalSubscribers: channel.subscriberIds.length,
     }
   }
 

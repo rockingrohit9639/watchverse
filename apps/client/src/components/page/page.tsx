@@ -8,7 +8,7 @@ type PageProps = {
 
 export default function Page({ className, style, children }: PageProps) {
   return (
-    <div className={clsx(className, 'p-4')} style={style}>
+    <div className={clsx(className, 'p-4 max-w-screen-xl mx-auto')} style={style}>
       {children}
     </div>
   )
