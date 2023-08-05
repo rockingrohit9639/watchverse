@@ -32,7 +32,11 @@ export default function Navbar({ className, style }: NavbarProps) {
   const updateActiveChannelMutation = useMutation(updateActiveChannel, {
     onError: handleError,
     onSuccess: () => {
-      queryClient.invalidateQueries(QUERY_KEYS.channels)
+      queryClient.invalidateQueries([
+        QUERY_KEYS.channels,
+        QUERY_KEYS['active-channel-playlists'],
+        QUERY_KEYS['active-channel-videos'],
+      ])
     },
   })
 

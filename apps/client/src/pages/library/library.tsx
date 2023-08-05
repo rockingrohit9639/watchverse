@@ -2,6 +2,7 @@ import { MoreOutlined } from '@ant-design/icons'
 import { Divider, Dropdown } from 'antd'
 import { useCallback } from 'react'
 import { useQueries } from 'react-query'
+import AddToPlaylist from '~/components/add-to-playlist'
 import Loading from '~/components/loading'
 import Page from '~/components/page'
 import Playlist from '~/components/playlist'
@@ -26,6 +27,10 @@ export default function Library() {
             {
               key: 'update-video',
               label: <UpdateVideoModal trigger={<div>Update Video</div>} videoId={videoId} />,
+            },
+            {
+              key: 'add-to-playlist',
+              label: <AddToPlaylist trigger={<div>Add To Playlist</div>} videoId={videoId} />,
             },
           ],
         }}

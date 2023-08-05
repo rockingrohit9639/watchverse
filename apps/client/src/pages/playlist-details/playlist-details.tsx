@@ -49,7 +49,7 @@ export default function PlaylistDetails() {
         </div>
       </div>
 
-      <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2">
+      <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {playlist.videos.map((video) => (
           <Video key={video.id} video={video} />
         ))}

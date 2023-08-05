@@ -98,6 +98,12 @@ export class VideoService {
       throw new ForbiddenException('You are not allowed to add videos to this playlist!')
     }
     const video = await this.findOneById(videoId)
+    const activeChannel = await this.channelService.findActiveChannel(user.id)
+
+    if (video.channelId !== activeChannel.id) {
+      throw new ForbiddenException('You are not allowed to add videos from other channels!')
+    }
+
     return this.prismaService.video.update({
       where: { id: video.id },
       data: { playlists: { connect: { id: playlist.id } } },

@@ -30,3 +30,8 @@ export async function findVideoDetails(id: string) {
   const { data } = await apiClient.get<Video>(`video/${id}`)
   return data
 }
+
+export async function addToPlaylist(videoId: string, playlistId: string) {
+  const { data } = await apiClient.post(`video/add-to-playlist/${videoId}/${playlistId}`)
+  return data
+}
