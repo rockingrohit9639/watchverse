@@ -25,3 +25,8 @@ export async function fetchChannelStats(id: string) {
   const { data } = await apiClient.get<ChannelStats>(`channel/stats/${id}`)
   return data
 }
+
+export async function subscribeChannel(id: string) {
+  const { data } = await apiClient.post<Channel>(`channel/subscribe/${id}`)
+  return data
+}

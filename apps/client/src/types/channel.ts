@@ -9,6 +9,7 @@ export type Channel = {
   bannerId?: string
   isActive: boolean
   createdBy: User
+  createdById: string
   createdAt: string
   updatedAt: string
   videos: Video[]
