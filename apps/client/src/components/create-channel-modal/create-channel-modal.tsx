@@ -18,7 +18,7 @@ export default function CreateChannelModal({ trigger }: CreateChannelModalProps)
       trigger={trigger}
       mutationFn={createChannel}
       onSuccess={(data: Channel, queryClient) => {
-        queryClient.setQueriesData<Channel[]>([QUERY_KEYS.channels], (prev) => {
+        queryClient.setQueriesData<Channel[]>(QUERY_KEYS.channels, (prev) => {
           if (!prev) return []
           return [...prev, data]
         })

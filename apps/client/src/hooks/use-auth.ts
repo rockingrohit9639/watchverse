@@ -15,7 +15,7 @@ export function useAuth() {
     data: user,
     remove: removeUserData,
     refetch: refetchUserData,
-  } = useQuery([QUERY_KEYS['logged-in']], fetchLoggedInUser, {
+  } = useQuery(QUERY_KEYS['logged-in'], fetchLoggedInUser, {
     retry: false,
   })
 
@@ -26,7 +26,7 @@ export function useAuth() {
       window.localStorage.setItem(ENV.VITE_BEARER_TOKEN_KEY, data.accessToken)
 
       // update the user in the queryClient, so that you would automatically get user from useAuthContext
-      queryClient.setQueryData([QUERY_KEYS['logged-in']], data.user)
+      queryClient.setQueryData(QUERY_KEYS['logged-in'], data.user)
     },
     onError: (error) => {
       message.error(getErrorMessage(error))

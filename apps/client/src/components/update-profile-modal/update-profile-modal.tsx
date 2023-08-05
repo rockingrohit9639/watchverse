@@ -22,7 +22,7 @@ export default function UpdateProfileModal({ trigger }: UpdateProfileModalProps)
       trigger={trigger}
       initialValues={{ name: user.name }}
       onSuccess={(updatedUser, queryClient) => {
-        queryClient.setQueryData([QUERY_KEYS['logged-in']], updatedUser)
+        queryClient.setQueryData(QUERY_KEYS['logged-in'], updatedUser)
         message.success('Profile updated successfully!')
       }}
     >

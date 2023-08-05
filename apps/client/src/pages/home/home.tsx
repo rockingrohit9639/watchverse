@@ -8,7 +8,7 @@ import { getErrorMessage } from '~/utils/error'
 import { QUERY_KEYS } from '~/utils/qk'
 
 export default function Home() {
-  const { data: videos, isLoading, error } = useQuery([QUERY_KEYS.feed], fetchFeed)
+  const { data: videos, isLoading, error } = useQuery(QUERY_KEYS.feed, fetchFeed)
 
   if (isLoading) {
     return <Loading>Loading your feed...</Loading>

@@ -12,8 +12,8 @@ import { QUERY_KEYS } from '~/utils/qk'
 
 export default function Library() {
   const [playlistsQuery, videosQuery] = useQueries([
-    { queryKey: [QUERY_KEYS['channel-playlists']], queryFn: findActiveChannelPlaylists },
-    { queryKey: [QUERY_KEYS['active-channel-videos']], queryFn: findActiveChannelVideos },
+    { queryKey: QUERY_KEYS['channel-playlists'], queryFn: findActiveChannelPlaylists },
+    { queryKey: QUERY_KEYS['active-channel-videos'], queryFn: findActiveChannelVideos },
   ])
 
   const videoMoreContent = useCallback((videoId: string) => {

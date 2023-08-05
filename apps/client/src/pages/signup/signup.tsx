@@ -20,7 +20,7 @@ export default function Signup() {
       localStorage.setItem(ENV.VITE_BEARER_TOKEN_KEY, accessToken)
 
       // setting the user in state
-      queryClient.setQueryData([QUERY_KEYS['logged-in']], user)
+      queryClient.setQueryData(QUERY_KEYS['logged-in'], user)
 
       navigate('/', { replace: true })
     },

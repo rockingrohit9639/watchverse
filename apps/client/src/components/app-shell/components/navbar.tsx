@@ -25,14 +25,14 @@ const NAVBAR_HEIGHT = 60
 
 export default function Navbar({ className, style }: NavbarProps) {
   const { user } = useUser()
-  const { data: userChannels } = useQuery([QUERY_KEYS.channels], fetchUserChannels)
+  const { data: userChannels } = useQuery(QUERY_KEYS.channels, fetchUserChannels)
   const { handleError } = useError()
   const queryClient = useQueryClient()
 
   const updateActiveChannelMutation = useMutation(updateActiveChannel, {
     onError: handleError,
     onSuccess: () => {
-      queryClient.invalidateQueries([QUERY_KEYS.channels])
+      queryClient.invalidateQueries(QUERY_KEYS.channels)
     },
   })
 
