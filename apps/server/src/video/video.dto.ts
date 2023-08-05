@@ -23,4 +23,6 @@ export class UploadVideoDto {
   thumbnail: string
 }
 
-export class UpdateVideoDto extends PartialType(PickType(UploadVideoDto, ['title', 'description'])) {}
+export class UpdateVideoDto extends PartialType(
+  PickType(UploadVideoDto, ['title', 'description', 'thumbnail', 'visibility']),
+) {}

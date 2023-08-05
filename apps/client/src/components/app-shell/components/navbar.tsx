@@ -85,7 +85,10 @@ export default function Navbar({ className, style }: NavbarProps) {
 
   return (
     <div
-      className={clsx(className, 'border-b border-gray-50/10 fixed w-full top-0 left-0 z-10 bg-background')}
+      className={clsx(
+        className,
+        'border-b border-gray-50/10 fixed w-full top-0 left-0 z-10 bg-background/20 backdrop-blur-lg',
+      )}
       style={{ ...style, height: NAVBAR_HEIGHT }}
     >
       <div className="max-w-screen-xl mx-auto w-full px-4  h-full  flex items-center justify-between">

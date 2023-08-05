@@ -10,4 +10,5 @@ export const QUERY_KEYS = {
   'channel-stats': 'channel-stats',
   'uploaded-videos': 'uploaded-videos',
   'active-channel-videos': 'active-channel-videos',
+  video: 'video',
 } as const

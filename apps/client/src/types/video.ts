@@ -30,3 +30,7 @@ export type UploadVideoDto = Pick<Video, 'title' | 'description' | 'visibility'>
   video: string
   thumbnail: string
 }
+
+export type UpdateVideoDto = Pick<Video, 'title' | 'description' | 'visibility'> & {
+  thumbnail: string
+}

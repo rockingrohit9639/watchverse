@@ -67,7 +67,10 @@ export class VideoService {
       data: {
         title: dto.title,
         description: dto.description,
+        thumbnail: dto.thumbnail ? { connect: { id: dto.thumbnail } } : undefined,
+        visibility: dto.visibility,
       },
+      include: VIDEO_INCLUDE_FIELDS,
     })
   }
 

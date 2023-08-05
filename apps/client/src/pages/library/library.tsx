@@ -1,10 +1,11 @@
 import { MoreOutlined } from '@ant-design/icons'
-import { Divider, Dropdown, message } from 'antd'
+import { Divider, Dropdown } from 'antd'
 import { useCallback } from 'react'
 import { useQueries } from 'react-query'
 import Loading from '~/components/loading'
 import Page from '~/components/page'
 import Playlist from '~/components/playlist'
+import UpdateVideoModal from '~/components/update-video-modal'
 import Video from '~/components/video'
 import { findActiveChannelPlaylists } from '~/queries/playlist'
 import { findActiveChannelVideos } from '~/queries/video'
@@ -24,8 +25,7 @@ export default function Library() {
           items: [
             {
               key: 'update-video',
-              label: 'Update Video',
-              onClick: () => message.success(`Updating Video ${videoId}`),
+              label: <UpdateVideoModal trigger={<div>Update Video</div>} videoId={videoId} />,
             },
           ],
         }}
