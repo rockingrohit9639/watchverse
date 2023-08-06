@@ -1,6 +1,6 @@
 import { Result } from 'antd'
+import { range } from 'lodash'
 import { useQuery } from 'react-query'
-import Loading from '~/components/loading'
 import Page from '~/components/page'
 import Video from '~/components/video'
 import { fetchFeed } from '~/queries/video'
@@ -11,7 +11,13 @@ export default function Home() {
   const { data: videos, isLoading, error } = useQuery(QUERY_KEYS.feed, fetchFeed)
 
   if (isLoading) {
-    return <Loading>Loading your feed...</Loading>
+    return (
+      <Page className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {range(6).map((i) => (
+          <div key={i} className="border border-gray-500/10 h-80 rounded-lg animate-pulse bg-gray-500/10" />
+        ))}
+      </Page>
+    )
   }
 
   if (error) {
