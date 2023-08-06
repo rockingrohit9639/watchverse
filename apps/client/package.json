@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.1.4",
+    "@novu/notification-center": "^0.17.1",
     "antd": "^5.7.3",
     "axios": "^1.4.0",
     "clsx": "^1.2.1",

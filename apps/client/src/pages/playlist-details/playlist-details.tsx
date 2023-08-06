@@ -1,4 +1,4 @@
-import { Result } from 'antd'
+import { Divider, Result } from 'antd'
 import moment from 'moment'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -33,7 +33,7 @@ export default function PlaylistDetails() {
 
   return (
     <Page className="space-y-2">
-      <div className="space-y-2 border border-gray-50/10 rounded-lg p-4 bg-gray-500/10">
+      <div className="space-y-2 border border-gray-50/10 rounded-lg p-4">
         <div className="font-bold">{playlist.title}</div>
         <img
           src={`${ENV.VITE_API_BASE_URL}/file/download/${playlist.thumbnailId}`}
@@ -48,6 +48,8 @@ export default function PlaylistDetails() {
           <div className="text-sm">Updated on {moment(playlist.updatedAt).format(DATE_FORMAT)}</div>
         </div>
       </div>
+
+      <Divider>Playlist Videos</Divider>
 
       <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {playlist.videos.map((video) => (

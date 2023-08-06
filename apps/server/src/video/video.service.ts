@@ -1,5 +1,5 @@
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
-import { Video } from '@prisma/client'
+import { Video, Visibility } from '@prisma/client'
 import { PrismaService } from '~/prisma/prisma.service'
 import { UpdateVideoDto, UploadVideoDto } from './video.dto'
 import { SanitizedUser } from '~/user/user.types'
@@ -42,7 +42,11 @@ export class VideoService {
     /** Sending notification to channel subscribers */
     this.notificationService.sendTopicNotifications(
       channelKey,
-      `${user.name} uploaded a new video.\n${videoUploaded.title}`,
+      `${activeChannel.name} uploaded a new video.\n${videoUploaded.title}`,
+      {
+        channel: activeChannel,
+        videoUploaded,
+      },
     )
 
     return videoUploaded
@@ -121,7 +125,10 @@ export class VideoService {
   }
 
   findAll(): Promise<Video[]> {
-    return this.prismaService.video.findMany({ include: VIDEO_INCLUDE_FIELDS })
+    return this.prismaService.video.findMany({
+      where: { visibility: Visibility.PUBLIC },
+      include: VIDEO_INCLUDE_FIELDS,
+    })
   }
 
   increaseLike(id: string): Promise<Video> {

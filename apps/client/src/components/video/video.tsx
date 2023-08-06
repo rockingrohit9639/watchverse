@@ -15,10 +15,7 @@ type VideoProps = {
 export default function Video({ className, style, video, moreContent }: VideoProps) {
   return (
     <div
-      className={clsx(
-        'space-y-2 cursor-pointer group border border-gray-50/10 rounded-lg bg-gray-500/10 h-min',
-        className,
-      )}
+      className={clsx('space-y-2 cursor-pointer group border border-gray-50/10 rounded-lg bg-gray-500/10', className)}
       style={style}
     >
       <div className="flex items-center gap-2 p-4">

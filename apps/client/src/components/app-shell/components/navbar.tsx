@@ -1,12 +1,13 @@
 import { Avatar, Dropdown, Tooltip } from 'antd'
 import clsx from 'clsx'
-import { BellOutlined, CheckOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
+import { CheckOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
 import { AiOutlineHome, AiOutlineVideoCameraAdd } from 'react-icons/ai'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { ItemType } from 'antd/es/menu/hooks/useItems'
-import { Link } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { MdOutlineVideoLibrary, MdPlaylistAdd } from 'react-icons/md'
+import { IMessage, NotificationBell, PopoverNotificationCenter } from '@novu/notification-center'
 import { useUser } from '~/hooks/use-user'
 import UpdateProfileModal from '~/components/update-profile-modal'
 import { ENV } from '~/utils/env'
@@ -15,6 +16,7 @@ import { fetchUserChannels, updateActiveChannel } from '~/queries/channel'
 import useError from '~/hooks/use-error'
 import { QUERY_KEYS } from '~/utils/qk'
 import CreatePlaylist from '~/components/create-playlist'
+import { Video } from '~/types/video'
 
 type NavbarProps = {
   className?: string
@@ -28,6 +30,7 @@ export default function Navbar({ className, style }: NavbarProps) {
   const { data: userChannels } = useQuery(QUERY_KEYS.channels, fetchUserChannels)
   const { handleError } = useError()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const updateActiveChannelMutation = useMutation(updateActiveChannel, {
     onError: handleError,
@@ -87,6 +90,16 @@ export default function Navbar({ className, style }: NavbarProps) {
     return items
   }, [updateActiveChannelMutation, userChannels])
 
+  const handleOnNotificationClick = useCallback(
+    (message: IMessage) => {
+      const videoUploaded = message.payload.videoUploaded as Video
+      if (videoUploaded) {
+        navigate(`/video/${videoUploaded.id}`)
+      }
+    },
+    [navigate],
+  )
+
   return (
     <div
       className={clsx(
@@ -101,27 +114,42 @@ export default function Navbar({ className, style }: NavbarProps) {
         </Link>
         <div className="flex items-center gap-2">
           <Tooltip title="Home">
-            <Link to="/" className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                clsx('cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center', isActive && 'bg-gray-50/10')
+              }
+            >
               <AiOutlineHome />
-            </Link>
+            </NavLink>
           </Tooltip>
 
           <Tooltip title="Library">
-            <Link to="/library" className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
+            <NavLink
+              to="/library"
+              className={({ isActive }) =>
+                clsx('cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center', isActive && 'bg-gray-50/10')
+              }
+            >
               <MdOutlineVideoLibrary />
-            </Link>
+            </NavLink>
           </Tooltip>
 
           <Tooltip title="Upload Video">
-            <Link to="/upload-video" className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
+            <NavLink
+              to="/upload-video"
+              className={({ isActive }) =>
+                clsx('cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center', isActive && 'bg-gray-50/10')
+              }
+            >
               <AiOutlineVideoCameraAdd />
-            </Link>
+            </NavLink>
           </Tooltip>
 
           <Tooltip title="Notification">
-            <div className="cursor-pointer w-8 h-8 rounded-full hover:bg-gray-50/10 flex-center">
-              <BellOutlined />
-            </div>
+            <PopoverNotificationCenter colorScheme="dark" onNotificationClick={handleOnNotificationClick}>
+              {({ unseenCount }) => <NotificationBell unseenCount={unseenCount} />}
+            </PopoverNotificationCenter>
           </Tooltip>
 
           <Dropdown

@@ -120,6 +120,10 @@ export class ChannelService {
 
     /** Add subscriber to receive notifications  */
     await this.notificationService.addSubscriber(this.getChannelKey(channel.name, channel.id), user.id)
+
+    /** Send notification to the creator of channel */
+    await this.notificationService.sendNotification(channel.createdById, `${user.name} subscribed to your channel.`)
+
     return this.prismaService.channel.update({
       where: { id: channel.id },
       data: { subscribers: { connect: { id: user.id } } },

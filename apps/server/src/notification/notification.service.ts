@@ -32,10 +32,14 @@ export class NotificationService {
     await this.novu.topics.removeSubscribers(topicKey, { subscribers: [subscriberId] })
   }
 
-  async sendTopicNotifications(topicKey: string, description: string) {
+  async sendTopicNotifications(topicKey: string, description: string, payload?: Record<string, any>) {
     await this.novu.trigger(NOVU_WORKFLOW_ID, {
       to: [{ type: TriggerRecipientsTypeEnum.TOPIC, topicKey }],
-      payload: { description },
+      payload: { description, ...payload },
     })
+  }
+
+  async sendNotification(to: string, description: string) {
+    await this.novu.trigger(NOVU_WORKFLOW_ID, { to: { subscriberId: to }, payload: { description } })
   }
 }
