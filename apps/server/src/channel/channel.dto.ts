@@ -20,7 +20,9 @@ export class CreateChannelDto {
   banner?: string
 }
 
-export class UpdateChannelDto extends PartialType(PickType(CreateChannelDto, ['name', 'description'])) {
+export class UpdateChannelDto extends PartialType(
+  PickType(CreateChannelDto, ['name', 'description', 'banner', 'logo']),
+) {
   @IsOptional()
   @IsBoolean()
   isActive: boolean

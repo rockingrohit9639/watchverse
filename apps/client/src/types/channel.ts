@@ -28,3 +28,8 @@ export type ChannelStats = {
   totalViews: number
   totalSubscribers: number
 }
+
+export type UpdateChannelDto = Pick<Channel, 'name' | 'description'> & {
+  logo?: string
+  banner?: string
+}

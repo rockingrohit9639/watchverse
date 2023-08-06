@@ -1,4 +1,4 @@
-import { Channel, ChannelStats, CreateChannelDto } from '~/types/channel'
+import { Channel, ChannelStats, CreateChannelDto, UpdateChannelDto } from '~/types/channel'
 import { apiClient } from '~/utils/client'
 
 export async function createChannel(dto: CreateChannelDto) {
@@ -28,5 +28,10 @@ export async function fetchChannelStats(id: string) {
 
 export async function subscribeChannel(id: string) {
   const { data } = await apiClient.post<Channel>(`channel/subscribe/${id}`)
+  return data
+}
+
+export async function updateChannel(id: string, dto: UpdateChannelDto) {
+  const { data } = await apiClient.patch(`channel/${id}`, dto)
   return data
 }

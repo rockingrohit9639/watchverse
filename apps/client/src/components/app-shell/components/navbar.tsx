@@ -80,15 +80,28 @@ export default function Navbar({ className, style }: NavbarProps) {
               ) : null}
             </div>
           ),
-          onClick: () => {
-            updateActiveChannelMutation.mutate(channel.id)
-          },
+          children: [
+            {
+              key: 'mark-as-active',
+              label: 'Mark as Active',
+              onClick: () => {
+                updateActiveChannelMutation.mutate(channel.id)
+              },
+            },
+            {
+              key: 'customize',
+              label: 'Customize Channel',
+              onClick: () => {
+                navigate(`/channel/customize/${channel.id}`)
+              },
+            },
+          ],
         })
       })
     }
 
     return items
-  }, [updateActiveChannelMutation, userChannels])
+  }, [updateActiveChannelMutation, userChannels, navigate])
 
   const handleOnNotificationClick = useCallback(
     (message: IMessage) => {
