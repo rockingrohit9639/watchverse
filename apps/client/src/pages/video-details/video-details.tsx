@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import Loading from '~/components/loading'
 import Page from '~/components/page'
 import SubscribeChannel from '~/components/subscribe-channel'
+import VideoComments from '~/components/video-comments'
 import { findVideoDetails } from '~/queries/video'
 import { ENV } from '~/utils/env'
 import { getErrorMessage } from '~/utils/error'
@@ -68,6 +69,8 @@ export default function VideoDetails() {
           </div>
           <div>{video.description}</div>
         </div>
+
+        <VideoComments videoId={video.id} />
       </div>
 
       <div className="hidden sm:block">Suggestions</div>

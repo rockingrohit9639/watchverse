@@ -4,6 +4,7 @@ import { PrismaService } from '~/prisma/prisma.service'
 import { VideoService } from '~/video/video.service'
 import { CreateCommentDto, UpdateCommentDto } from './comment.dto'
 import { SanitizedUser } from '~/user/user.types'
+import { COMMENT_INCLUDE_FIELDS } from './comment.fields'
 
 @Injectable()
 export class CommentService {
@@ -17,11 +18,12 @@ export class CommentService {
         video: { connect: { id: video.id } },
         createdBy: { connect: { id: user.id } },
       },
+      include: COMMENT_INCLUDE_FIELDS,
     })
   }
 
   async findOneById(id: string): Promise<Comment> {
-    const comment = await this.prismaService.comment.findFirst({ where: { id } })
+    const comment = await this.prismaService.comment.findFirst({ where: { id }, include: COMMENT_INCLUDE_FIELDS })
     if (!comment) {
       throw new NotFoundException('Comment not found')
     }
@@ -46,6 +48,10 @@ export class CommentService {
 
   async findCommentForVideo(id: string): Promise<Comment[]> {
     const video = await this.videoService.findOneById(id)
-    return this.prismaService.comment.findMany({ where: { videoId: video.id } })
+    return this.prismaService.comment.findMany({
+      where: { videoId: video.id },
+      orderBy: { createdAt: 'desc' },
+      include: COMMENT_INCLUDE_FIELDS,
+    })
   }
 }
