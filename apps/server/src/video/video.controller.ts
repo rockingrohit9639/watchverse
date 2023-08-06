@@ -1,41 +1,52 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Res, UseGuards } from '@nestjs/common'
 import { Video } from '@prisma/client'
+import { Response } from 'express'
 import { VideoService } from './video.service'
 import { UpdateVideoDto, UploadVideoDto } from './video.dto'
 import { JwtGuard } from '~/auth/jwt/jwt.guard'
 import { GetUser } from '~/auth/user.decorator'
 import { SanitizedUser } from '~/user/user.types'
 
-@UseGuards(JwtGuard)
 @Controller('video')
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
+  @Get('stream/:id')
+  streamVideo(@Param('id') id: string, @Res({ passthrough: true }) res: Response) {
+    return this.videoService.streamVideo(id, res)
+  }
+
+  @UseGuards(JwtGuard)
   @Post()
   uploadVideo(@Body() dto: UploadVideoDto, @GetUser() user: SanitizedUser): Promise<Video> {
     return this.videoService.uploadVideo(dto, user)
   }
 
+  @UseGuards(JwtGuard)
   @Patch(':id')
   updateVideo(@Param('id') id: string, @Body() dto: UpdateVideoDto, @GetUser() user: SanitizedUser): Promise<Video> {
     return this.videoService.updateVideo(id, dto, user)
   }
 
+  @UseGuards(JwtGuard)
   @Get('channel/:id')
   findAllChannelVideos(@Param('id') channelId: string): Promise<Video[]> {
     return this.videoService.findAllChannelVideos(channelId)
   }
 
+  @UseGuards(JwtGuard)
   @Get()
   findUserVideos(@GetUser() user: SanitizedUser): Promise<Video[]> {
     return this.videoService.findUserVideos(user)
   }
 
+  @UseGuards(JwtGuard)
   @Delete(':id')
   delete(@Param('id') id: string, @GetUser() user: SanitizedUser): Promise<Video> {
     return this.videoService.delete(id, user)
   }
 
+  @UseGuards(JwtGuard)
   @Post('add-to-playlist/:videoId/:playlistId')
   addToPlaylist(
     @Param('videoId') videoId: string,
@@ -45,21 +56,25 @@ export class VideoController {
     return this.videoService.addToPlaylist(videoId, playlistId, user)
   }
 
+  @UseGuards(JwtGuard)
   @Get('playlist/:playlistId')
   findPlaylistVideos(@Param('playlistId') playlistId: string): Promise<Video[]> {
     return this.videoService.findPlaylistVideos(playlistId)
   }
 
+  @UseGuards(JwtGuard)
   @Get('feed')
   findAll(): Promise<Video[]> {
     return this.videoService.findAll()
   }
 
+  @UseGuards(JwtGuard)
   @Get('active')
   findActiveChannelVideos(@GetUser() user: SanitizedUser): Promise<Video[]> {
     return this.videoService.findActiveChannelVideos(user)
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
   findOneById(@Param('id') id: string): Promise<Video> {
     return this.videoService.findOneById(id)

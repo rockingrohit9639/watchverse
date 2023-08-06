@@ -1,5 +1,8 @@
-import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
+import { createReadStream } from 'fs'
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException, StreamableFile } from '@nestjs/common'
 import { Video, Visibility } from '@prisma/client'
+import { Response } from 'express'
+import * as contentDisposition from 'content-disposition'
 import { PrismaService } from '~/prisma/prisma.service'
 import { UpdateVideoDto, UploadVideoDto } from './video.dto'
 import { SanitizedUser } from '~/user/user.types'
@@ -18,6 +21,15 @@ export class VideoService {
     private readonly playlistService: PlaylistService,
     private readonly notificationService: NotificationService,
   ) {}
+
+  async streamVideo(id: string, res: Response) {
+    const file = await this.fileService.findOneById(id)
+    const filePath = this.fileService.getFilePath(file)
+    const video = createReadStream(filePath)
+    res.setHeader('content-type', file.mimeType)
+    res.setHeader('Content-Disposition', contentDisposition(file.filename, { type: 'inline' }))
+    return new StreamableFile(video)
+  }
 
   async uploadVideo(dto: UploadVideoDto, user: SanitizedUser): Promise<Video> {
     const isVideo = await this.fileService.isFileAVideo(dto.video)

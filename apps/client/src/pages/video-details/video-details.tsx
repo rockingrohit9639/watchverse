@@ -7,6 +7,7 @@ import Loading from '~/components/loading'
 import Page from '~/components/page'
 import SubscribeChannel from '~/components/subscribe-channel'
 import VideoComments from '~/components/video-comments'
+import VideoPlayer from '~/components/video-player'
 import { findVideoDetails } from '~/queries/video'
 import { ENV } from '~/utils/env'
 import { getErrorMessage } from '~/utils/error'
@@ -31,11 +32,9 @@ export default function VideoDetails() {
   return (
     <Page className="grid grid-cols-3 gap-4">
       <div className="col-span-full sm:col-span-2 space-y-4">
-        <img
-          src={`${ENV.VITE_API_BASE_URL}/file/download/${video.thumbnailId}`}
-          alt={video.title}
-          className="w-full object-cover rounded-lg aspect-video"
-        />
+        <div className="flex-center">
+          <VideoPlayer url={`${ENV.VITE_API_BASE_URL}/video/stream/${video.videoId}`} />
+        </div>
         <div className="text-lg font-bold">{video.title}</div>
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex items-center gap-2 space-y-2">

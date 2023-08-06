@@ -53,7 +53,7 @@ export class FileService {
     return file
   }
 
-  private getFilePath(file: File): string {
+  getFilePath(file: File): string {
     return path.resolve(this.configService.get('UPLOAD_DEST'), file.filename)
   }
 

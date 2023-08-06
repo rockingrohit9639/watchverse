@@ -11,8 +11,9 @@ type UploaderProps = Omit<UploadProps, 'customRequest' | 'listType' | 'onChange'
 function Uploader({ mode = 'single', onChange, ...props }: UploaderProps) {
   return (
     <Upload
-      listType="picture-card"
       {...props}
+      progress={{ format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%` }}
+      listType="picture-card"
       customRequest={async ({ onError, onProgress, onSuccess, file, filename }) => {
         const formData = new FormData()
         formData.append('file', file as Blob, filename)
