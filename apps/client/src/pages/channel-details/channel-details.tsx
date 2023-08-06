@@ -1,17 +1,13 @@
-import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons'
-import { Button, Empty, Result, Tabs } from 'antd'
-import { useMemo } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { Empty, Result, Tabs } from 'antd'
+import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import AboutChannel from '~/components/about-channel'
 import ChannelPlaylists from '~/components/channel-playlists'
 import ChannelVideos from '~/components/channel-videos'
 import Loading from '~/components/loading'
 import Page from '~/components/page'
-import useError from '~/hooks/use-error'
-import { useUser } from '~/hooks/use-user'
-import { fetchChannelDetails, subscribeChannel } from '~/queries/channel'
-import { Channel } from '~/types/channel'
+import SubscribeChannel from '~/components/subscribe-channel'
+import { fetchChannelDetails } from '~/queries/channel'
 import { ENV } from '~/utils/env'
 import { getErrorMessage } from '~/utils/error'
 import { QUERY_KEYS } from '~/utils/qk'
@@ -19,22 +15,6 @@ import { QUERY_KEYS } from '~/utils/qk'
 export default function ChannelDetails() {
   const { id } = useParams() as { id: string }
   const { data: channel, isLoading, error } = useQuery([QUERY_KEYS.channel, id], () => fetchChannelDetails(id))
-  const { user } = useUser()
-  const { handleError } = useError()
-  const queryClient = useQueryClient()
-
-  const isSubscribed = useMemo(() => channel?.subscriberIds.includes(user.id), [channel, user])
-
-  const subscribeChannelMutation = useMutation(subscribeChannel, {
-    onError: handleError,
-    onSuccess: (updatedChannel) => {
-      queryClient.setQueryData<Channel>([QUERY_KEYS.channel, id], (prevData) => {
-        if (!prevData) return updatedChannel
-
-        return { ...updatedChannel, subscriberIds: updatedChannel.subscriberIds }
-      })
-    },
-  })
 
   if (isLoading) {
     return <Loading>Fetching channel details...</Loading>
@@ -75,21 +55,7 @@ export default function ChannelDetails() {
             <div className="text-text-secondary">{channel.subscriberIds.length} Subscribers</div>
           </div>
           <div className="text-text-secondary">{channel.description}</div>
-          {channel.createdById !== user.id ? (
-            <div className="mt-2">
-              <Button
-                type={isSubscribed ? undefined : 'primary'}
-                icon={isSubscribed ? <UserDeleteOutlined /> : <UserAddOutlined />}
-                onClick={() => {
-                  subscribeChannelMutation.mutate(id)
-                }}
-                loading={subscribeChannelMutation.isLoading}
-                disabled={subscribeChannelMutation.isLoading}
-              >
-                {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
-              </Button>
-            </div>
-          ) : null}
+          <SubscribeChannel channel={channel} />
         </div>
 
         {/* Channel's Other Details */}

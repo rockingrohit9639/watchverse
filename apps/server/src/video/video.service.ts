@@ -53,7 +53,7 @@ export class VideoService {
   }
 
   async findOneById(id: string): Promise<Video> {
-    const video = await this.prismaService.video.findFirst({ where: { id } })
+    const video = await this.prismaService.video.findFirst({ where: { id }, include: VIDEO_INCLUDE_FIELDS })
     if (!video) {
       throw new NotFoundException('Video not found!')
     }
