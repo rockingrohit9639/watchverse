@@ -54,7 +54,11 @@ export default function ChannelDetails() {
 
   return (
     <div>
-      <img src="/watchverse-banner.jpg" alt="banner" className="h-52 w-full object-cover" />
+      <img
+        src={channel.bannerId ? `${ENV.VITE_API_BASE_URL}/file/download/${channel.bannerId}` : '/watchverse-banner.jpg'}
+        alt="banner"
+        className="h-52 w-full aspect-[16 / 9] object-cover"
+      />
       <Page className="grid grid-cols-3">
         {/* Channel Logo */}
         <div className="w-56 h-56">

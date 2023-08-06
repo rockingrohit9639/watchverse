@@ -58,7 +58,7 @@ export default function UploadVideo() {
           </Form.Item>
 
           <Form.Item name="video" label="Video" rules={[{ required: true, message: 'Video is required!' }]}>
-            <FileUploader maxCount={1} accept={ALLOWED_VIDEO_MIMETYPES} />
+            <FileUploader uploaderProps={{ maxCount: 1, accept: ALLOWED_VIDEO_MIMETYPES }} />
           </Form.Item>
         </div>
         <div className="col-span-1">
@@ -74,7 +74,11 @@ export default function UploadVideo() {
           </Form.Item>
 
           <Form.Item name="thumbnail" label="Thumbnail" rules={[{ required: true, message: 'Thumbnail is required!' }]}>
-            <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+            <FileUploader
+              showCrop
+              uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }}
+              cropperProps={{ aspect: 16 / 9 }}
+            />
           </Form.Item>
         </div>
 

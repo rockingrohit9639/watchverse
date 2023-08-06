@@ -63,11 +63,15 @@ export default function CustomizeChannel() {
 
         <div className="flex items-center gap-6">
           <Form.Item name="logo" label="Logo">
-            <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+            <FileUploader showCrop uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }} />
           </Form.Item>
 
           <Form.Item name="banner" label="Banner">
-            <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+            <FileUploader
+              showCrop
+              uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }}
+              cropperProps={{ aspect: 16 / 9 }}
+            />
           </Form.Item>
         </div>
 

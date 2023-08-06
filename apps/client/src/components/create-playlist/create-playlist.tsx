@@ -66,7 +66,11 @@ export default function CreatePlaylist({ className, style, trigger }: CreatePlay
       </Form.Item>
 
       <Form.Item name="thumbnail" label="Thumbnail" rules={[{ required: true, message: 'Thumbnail is required!' }]}>
-        <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+        <FileUploader
+          showCrop
+          uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }}
+          cropperProps={{ aspect: 16 / 9 }}
+        />
       </Form.Item>
     </EntityMutationModal>
   )

@@ -50,11 +50,15 @@ export default function CreateChannelModal({ trigger }: CreateChannelModalProps)
 
       <div className="flex items-center gap-4">
         <Form.Item name="logo" label="Logo" rules={[{ required: true, message: 'Channel logo is required!' }]}>
-          <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+          <FileUploader showCrop uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }} />
         </Form.Item>
 
         <Form.Item name="banner" label="Banner">
-          <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+          <FileUploader
+            showCrop
+            uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }}
+            cropperProps={{ aspect: 16 / 9 }}
+          />
         </Form.Item>
       </div>
     </EntityMutationModal>

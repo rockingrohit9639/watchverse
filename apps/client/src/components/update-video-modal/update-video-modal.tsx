@@ -61,7 +61,11 @@ export default function UpdateVideoModal({ className, style, trigger, videoId }:
       </Form.Item>
 
       <Form.Item name="thumbnail" label="Thumbnail">
-        <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+        <FileUploader
+          showCrop
+          uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }}
+          cropperProps={{ aspect: 16 / 9 }}
+        />
       </Form.Item>
     </EntityMutationModal>
   )

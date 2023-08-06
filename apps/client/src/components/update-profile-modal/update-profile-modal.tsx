@@ -31,7 +31,7 @@ export default function UpdateProfileModal({ trigger }: UpdateProfileModalProps)
       </Form.Item>
 
       <Form.Item name="picture" label="Profile Picture">
-        <FileUploader maxCount={1} accept={ALLOWED_IMAGE_MIMETYPES} />
+        <FileUploader showCrop uploaderProps={{ maxCount: 1, accept: ALLOWED_IMAGE_MIMETYPES }} />
       </Form.Item>
     </EntityMutationModal>
   )

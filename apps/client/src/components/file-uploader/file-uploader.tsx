@@ -1,14 +1,14 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { Upload, UploadProps } from 'antd'
+import ImgCrop, { ImgCropProps } from 'antd-img-crop'
 import { apiClient } from '~/utils/client'
 
-type FileUploaderProps = Omit<UploadProps, 'customRequest' | 'listType'> & {
-  /** Form.Item internally passes onChange */
+type UploaderProps = Omit<UploadProps, 'customRequest' | 'listType' | 'onChange'> & {
   onChange?: (file: string | string[]) => void
   mode?: 'multiple' | 'single'
 }
 
-export default function FileUploader({ mode = 'single', onChange, ...props }: FileUploaderProps) {
+function Uploader({ mode = 'single', onChange, ...props }: UploaderProps) {
   return (
     <Upload
       listType="picture-card"
@@ -41,5 +41,23 @@ export default function FileUploader({ mode = 'single', onChange, ...props }: Fi
         <div>Upload</div>
       </div>
     </Upload>
+  )
+}
+
+type FileUploaderProps = {
+  showCrop?: boolean
+  /** Form.Item internally passes onChange */
+  onChange?: (file: string | string[]) => void
+  uploaderProps?: UploaderProps
+  cropperProps?: Omit<ImgCropProps, 'children'>
+}
+
+export default function FileUploader({ showCrop = false, onChange, uploaderProps, cropperProps }: FileUploaderProps) {
+  return showCrop ? (
+    <ImgCrop {...cropperProps}>
+      <Uploader onChange={onChange} {...uploaderProps} />
+    </ImgCrop>
+  ) : (
+    <Uploader onChange={onChange} {...uploaderProps} />
   )
 }

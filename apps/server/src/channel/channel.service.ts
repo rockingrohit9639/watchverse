@@ -65,9 +65,16 @@ export class ChannelService {
     if (channel.createdById !== user.id) {
       throw new UnauthorizedException('You are not allowed to update this channel!')
     }
+
     return this.prismaService.channel.update({
       where: { id },
-      data: { name: dto.name, description: dto.description, isActive: dto.isActive },
+      data: {
+        name: dto.name,
+        description: dto.description,
+        isActive: dto.isActive,
+        logo: dto.logo ? { connect: { id: dto.logo } } : undefined,
+        banner: dto.banner ? { connect: { id: dto.banner } } : undefined,
+      },
     })
   }
 

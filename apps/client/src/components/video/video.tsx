@@ -19,7 +19,7 @@ export default function Video({ className, style, video, moreContent }: VideoPro
       style={style}
     >
       <div className="flex items-center gap-2 p-4">
-        <Avatar src={`${ENV.VITE_API_BASE_URL}/file/download/${video.uploadedById}`} className="w-8 h-8">
+        <Avatar src={`${ENV.VITE_API_BASE_URL}/file/download/${video.channel.logoId}`} className="w-8 h-8">
           {video.channel.name[0]}
         </Avatar>
 
