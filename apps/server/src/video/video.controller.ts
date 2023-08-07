@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Res, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, Res, UseGuards } from '@nestjs/common'
 import { Video } from '@prisma/client'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { VideoService } from './video.service'
 import { UpdateVideoDto, UploadVideoDto } from './video.dto'
 import { JwtGuard } from '~/auth/jwt/jwt.guard'
@@ -12,8 +12,8 @@ export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
   @Get('stream/:id')
-  streamVideo(@Param('id') id: string, @Res({ passthrough: true }) res: Response) {
-    return this.videoService.streamVideo(id, res)
+  streamVideo(@Param('id') id: string, @Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    return this.videoService.streamVideo(id, req, res)
   }
 
   @UseGuards(JwtGuard)

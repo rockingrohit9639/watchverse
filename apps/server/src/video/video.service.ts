@@ -1,7 +1,7 @@
 import { createReadStream } from 'fs'
 import { BadRequestException, ForbiddenException, Injectable, NotFoundException, StreamableFile } from '@nestjs/common'
 import { Video, Visibility } from '@prisma/client'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import * as contentDisposition from 'content-disposition'
 import { PrismaService } from '~/prisma/prisma.service'
 import { UpdateVideoDto, UploadVideoDto } from './video.dto'
@@ -22,12 +22,27 @@ export class VideoService {
     private readonly notificationService: NotificationService,
   ) {}
 
-  async streamVideo(id: string, res: Response) {
+  async streamVideo(id: string, req: Request, res: Response) {
     const file = await this.fileService.findOneById(id)
     const filePath = this.fileService.getFilePath(file)
-    const video = createReadStream(filePath)
-    res.setHeader('content-type', file.mimeType)
-    res.setHeader('Content-Disposition', contentDisposition(file.filename, { type: 'inline' }))
+
+    /** To handle video seek */
+    const range = req.headers.range
+    const CHUNK_SIZE = 10 ** 6 // 1MB
+    const start = Number(range.replace(/\D/g, ''))
+    const end = Math.min(start + CHUNK_SIZE, file.size - 1)
+    const contentLength = end - start + 1
+
+    const headers: Request['headers'] = {
+      'content-range': `bytes ${start}-${end}/${file.size}`,
+      'accept-ranges': 'bytes',
+      'content-length': contentLength.toString(),
+      'content-type': file.mimeType,
+      'content-disposition': contentDisposition(file.filename, { type: 'inline' }),
+    }
+
+    res.writeHead(206, headers)
+    const video = createReadStream(filePath, { start, end })
     return new StreamableFile(video)
   }
 
