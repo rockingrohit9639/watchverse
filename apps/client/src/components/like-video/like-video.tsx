@@ -30,9 +30,8 @@ export default function LikeVideo({ className, style, video }: LikeVideoProps) {
   const likeOrUnlikeMutation = useMutation(likeOrUnlike, {
     onError: handleError,
     onSuccess: () => {
-      queryClient.setQueryData<Video>([QUERY_KEYS.video, video.id], (prevData) => {
-        if (!prevData) return {} as Video
-        return { ...prevData, likes: isLiked ? prevData.likes - 1 : prevData.likes + 1 }
+      queryClient.setQueryData([QUERY_KEYS.video, video.id], (prevData: any) => {
+        return { ...prevData, likes: isLiked ? (prevData?.likes ?? 0) - 1 : (prevData?.likes ?? 0) + 1 }
       })
       queryClient.setQueryData<Like>([QUERY_KEYS.like, video.id], (prevData) => {
         if (!prevData) return {} as Like
