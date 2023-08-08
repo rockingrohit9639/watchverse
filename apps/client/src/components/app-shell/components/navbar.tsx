@@ -17,6 +17,7 @@ import useError from '~/hooks/use-error'
 import { QUERY_KEYS } from '~/utils/qk'
 import CreatePlaylist from '~/components/create-playlist'
 import { Video } from '~/types/video'
+import { useAuthContext } from '~/hooks/use-auth'
 
 type NavbarProps = {
   className?: string
@@ -31,6 +32,7 @@ export default function Navbar({ className, style }: NavbarProps) {
   const { handleError } = useError()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const { logout } = useAuthContext()
 
   const updateActiveChannelMutation = useMutation(updateActiveChannel, {
     onError: handleError,
@@ -100,8 +102,19 @@ export default function Navbar({ className, style }: NavbarProps) {
       })
     }
 
+    items.push({
+      key: 'logout-divider',
+      type: 'divider',
+    })
+
+    items.push({
+      key: 'logout',
+      label: 'Logout',
+      onClick: logout,
+    })
+
     return items
-  }, [updateActiveChannelMutation, userChannels, navigate])
+  }, [userChannels, logout, updateActiveChannelMutation, navigate])
 
   const handleOnNotificationClick = useCallback(
     (message: IMessage) => {

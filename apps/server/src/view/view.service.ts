@@ -23,6 +23,11 @@ export class ViewService {
       return view
     }
 
+    const isAlreadyViewedByUser = viewDocument.viewedByIds.includes(user.id)
+    if (isAlreadyViewedByUser) {
+      return viewDocument
+    }
+
     const [view] = await Promise.all([
       this.prismaService.view.update({
         where: { id: viewDocument.id },

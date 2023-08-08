@@ -1,5 +1,6 @@
 import { Channel } from './channel'
 import { File } from './file'
+import { Tag } from './tag'
 import { User } from './user'
 
 export const Visibility = {
@@ -24,11 +25,13 @@ export type Video = {
   thumbnailId: string
   createdAt: Date
   updatedAt: Date
+  tags: Tag[]
 }
 
 export type UploadVideoDto = Pick<Video, 'title' | 'description' | 'visibility'> & {
   video: string
   thumbnail: string
+  tags: string[]
 }
 
 export type UpdateVideoDto = Pick<Video, 'title' | 'description' | 'visibility'> & {

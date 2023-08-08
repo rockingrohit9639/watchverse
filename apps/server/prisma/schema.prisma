@@ -106,8 +106,21 @@ model Video {
   likeDocument Like?
   comments     Comment[]
   viewDocument View?
+  tags         Tag[]      @relation(fields: [tagIds], references: [id])
+  tagIds       String[]   @db.ObjectId
 
   @@map("videos")
+}
+
+model Tag {
+  id  String @id @default(auto()) @map("_id") @db.ObjectId
+  tag String
+
+  videos   Video[]  @relation(fields: [videoIds], references: [id])
+  videoIds String[] @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Playlist {

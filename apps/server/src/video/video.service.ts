@@ -63,6 +63,7 @@ export class VideoService {
         visibility: dto.visibility,
         video: { connect: { id: dto.video } },
         thumbnail: { connect: { id: dto.thumbnail } },
+        tags: { connect: dto.tags.map((id) => ({ id })) },
       },
     })
 

@@ -14,4 +14,5 @@ export const QUERY_KEYS = {
   'active-channel-playlists': 'active-channel-playlists',
   comments: 'comments',
   like: 'like',
+  tags: 'tags',
 } as const

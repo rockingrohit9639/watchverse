@@ -1,6 +1,6 @@
 import { PartialType, PickType } from '@nestjs/mapped-types'
 import { Visibility } from '@prisma/client'
-import { IsEnum, IsMongoId, IsString, MaxLength, MinLength } from 'class-validator'
+import { IsArray, IsEnum, IsMongoId, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator'
 
 export class UploadVideoDto {
   @IsString()
@@ -21,6 +21,11 @@ export class UploadVideoDto {
 
   @IsMongoId()
   thumbnail: string
+
+  @IsArray()
+  @IsNotEmpty()
+  @IsMongoId({ each: true })
+  tags: string[]
 }
 
 export class UpdateVideoDto extends PartialType(

@@ -12,6 +12,7 @@ import { LikeModule } from './like/like.module'
 import { CommentModule } from './comment/comment.module'
 import { ViewModule } from './view/view.module'
 import { NotificationModule } from './notification/notification.module'
+import { TagModule } from './tag/tag.module'
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { NotificationModule } from './notification/notification.module'
     CommentModule,
     ViewModule,
     NotificationModule,
+    TagModule,
   ],
   providers: [],
 })

@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import FileUploader from '~/components/file-uploader'
 import Page from '~/components/page'
+import TagSelector from '~/components/tag-selector'
 import useError from '~/hooks/use-error'
 import { uploadVideo } from '~/queries/video'
 import { Visibility } from '~/types/video'
@@ -71,6 +72,10 @@ export default function UploadVideo() {
               placeholder="Video visibility"
               options={Object.keys(Visibility).map((key) => ({ value: key, label: key }))}
             />
+          </Form.Item>
+
+          <Form.Item name="tags" label="Tags" rules={[{ required: true, message: 'Tags are required!' }]}>
+            <TagSelector placeholder="Select tags for you video" mode="multiple" />
           </Form.Item>
 
           <Form.Item name="thumbnail" label="Thumbnail" rules={[{ required: true, message: 'Thumbnail is required!' }]}>
