@@ -64,8 +64,8 @@ export class VideoController {
 
   @UseGuards(JwtGuard)
   @Get('feed')
-  findAll(): Promise<Video[]> {
-    return this.videoService.findAll()
+  getUserFeedVideos(@GetUser() user: SanitizedUser): Promise<Video[]> {
+    return this.videoService.getUserFeedVideos(user)
   }
 
   @UseGuards(JwtGuard)

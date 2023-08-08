@@ -152,6 +152,38 @@ export class VideoService {
     return this.prismaService.video.findMany({ where: { channelId: activeChannel.id }, include: VIDEO_INCLUDE_FIELDS })
   }
 
+  async getUserFeedVideos(user: SanitizedUser): Promise<Video[]> {
+    const userInteractedVideos = await this.prismaService.video.findMany({
+      where: {
+        OR: [{ likeDocument: { likedByIds: { has: user.id } } }, { viewDocument: { viewedByIds: { has: user.id } } }],
+      },
+    })
+    return this.recommendVideos(userInteractedVideos)
+  }
+
+  private async recommendVideos(userInteractions: Video[]) {
+    const allVideos = await this.findAll()
+    const recommendedVideos = []
+
+    for (const interaction of userInteractions) {
+      for (const video of allVideos) {
+        /** Excluding the same video */
+        if (interaction.id !== video.id) {
+          for (const tag of video.tagIds) {
+            if (interaction.tagIds.includes(tag)) {
+              recommendedVideos.push(video.id)
+            }
+          }
+        }
+      }
+    }
+
+    return this.prismaService.video.findMany({
+      where: { id: { in: recommendedVideos } },
+      include: VIDEO_INCLUDE_FIELDS,
+    })
+  }
+
   findAll(): Promise<Video[]> {
     return this.prismaService.video.findMany({
       where: { visibility: Visibility.PUBLIC },
