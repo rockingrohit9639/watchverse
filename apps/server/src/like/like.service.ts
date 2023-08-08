@@ -54,4 +54,9 @@ export class LikeService {
 
     return like
   }
+
+  async getLikeDocument(videoId: string): Promise<Like> {
+    const video = await this.videoService.findOneById(videoId)
+    return this.prismaService.like.findFirst({ where: { videoId: video.id } })
+  }
 }

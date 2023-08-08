@@ -158,15 +158,18 @@ export class VideoService {
     })
   }
 
-  increaseLike(id: string): Promise<Video> {
-    return this.prismaService.video.update({ where: { id }, data: { likes: { increment: 1 } } })
+  async increaseLike(id: string): Promise<Video> {
+    const video = await this.findOneById(id)
+    return this.prismaService.video.update({ where: { id }, data: { likes: video.likes + 1 } })
   }
 
-  decreaseLike(id: string): Promise<Video> {
-    return this.prismaService.video.update({ where: { id }, data: { likes: { decrement: 1 } } })
+  async decreaseLike(id: string): Promise<Video> {
+    const video = await this.findOneById(id)
+    return this.prismaService.video.update({ where: { id }, data: { likes: video.likes - 1 } })
   }
 
-  increaseView(id: string): Promise<Video> {
-    return this.prismaService.video.update({ where: { id }, data: { views: { increment: 1 } } })
+  async increaseView(id: string): Promise<Video> {
+    const video = await this.findOneById(id)
+    return this.prismaService.video.update({ where: { id }, data: { views: video.views + 1 } })
   }
 }

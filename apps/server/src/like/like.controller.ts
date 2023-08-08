@@ -1,4 +1,4 @@
-import { Controller, Param, Post, UseGuards } from '@nestjs/common'
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common'
 import { Like } from '@prisma/client'
 import { LikeService } from './like.service'
 import { GetUser } from '~/auth/user.decorator'
@@ -13,5 +13,10 @@ export class LikeController {
   @Post(':videoId')
   likeOrUnlike(@Param('videoId') videoId: string, @GetUser() user: SanitizedUser): Promise<Like> {
     return this.likeService.likeOrUnlike(videoId, user)
+  }
+
+  @Get(':videoId')
+  getLikeDocument(@Param('videoId') id: string): Promise<Like> {
+    return this.likeService.getLikeDocument(id)
   }
 }

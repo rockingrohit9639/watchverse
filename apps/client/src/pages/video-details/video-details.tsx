@@ -1,21 +1,34 @@
-import { LikeOutlined, ShareAltOutlined } from '@ant-design/icons'
+import { ShareAltOutlined } from '@ant-design/icons'
 import { Avatar, Empty, Result } from 'antd'
 import moment from 'moment'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import LikeVideo from '~/components/like-video'
 import Loading from '~/components/loading'
 import Page from '~/components/page'
 import SubscribeChannel from '~/components/subscribe-channel'
 import VideoComments from '~/components/video-comments'
 import VideoPlayer from '~/components/video-player'
 import { findVideoDetails } from '~/queries/video'
+import { updateView } from '~/queries/view'
 import { ENV } from '~/utils/env'
 import { getErrorMessage } from '~/utils/error'
 import { QUERY_KEYS } from '~/utils/qk'
 
 export default function VideoDetails() {
   const { id } = useParams() as { id: string }
-  const { data: video, isLoading, error } = useQuery([QUERY_KEYS.video, id], () => findVideoDetails(id))
+
+  const viewMutation = useMutation(updateView)
+
+  const {
+    data: video,
+    isLoading,
+    error,
+  } = useQuery([QUERY_KEYS.video, id], () => findVideoDetails(id), {
+    onSuccess: () => {
+      viewMutation.mutate(id)
+    },
+  })
 
   if (isLoading) {
     return <Loading>Loading video...</Loading>
@@ -49,12 +62,7 @@ export default function VideoDetails() {
 
           <SubscribeChannel channel={video.channel} />
 
-          <div className="bg-gray-500/10 px-4 py-2 gap-2 rounded-full flex-center cursor-pointer">
-            <div>
-              <LikeOutlined />
-            </div>
-            <div className="text-sm">{video.likes} Likes</div>
-          </div>
+          <LikeVideo video={video} />
 
           <div className="bg-gray-500/10 p-2 rounded-full w-10 h-10 flex-center cursor-pointer">
             <ShareAltOutlined />

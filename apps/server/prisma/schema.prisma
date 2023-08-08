@@ -101,11 +101,11 @@ model Video {
   thumbnail    File    @relation(name: "VideoThumbnails", fields: [thumbnailId], references: [id])
   thumbnailId  String  @db.ObjectId
 
-  playlists     Playlist[] @relation(fields: [playlistIds], references: [id])
-  playlistIds   String[]   @db.ObjectId
-  likeDocuments Like[]
-  comments      Comment[]
-  viewDocuments View[]
+  playlists    Playlist[] @relation(fields: [playlistIds], references: [id])
+  playlistIds  String[]   @db.ObjectId
+  likeDocument Like?
+  comments     Comment[]
+  viewDocument View?
 
   @@map("videos")
 }
@@ -137,7 +137,7 @@ model Like {
   updatedAt DateTime @updatedAt
 
   video      Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
-  videoId    String   @db.ObjectId
+  videoId    String   @unique @db.ObjectId
   likedBy    User[]   @relation(name: "LikedVideos", fields: [likedByIds], references: [id])
   likedByIds String[] @db.ObjectId
 
@@ -164,8 +164,8 @@ model View {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  video       Video    @relation(fields: [videoId], references: [id], onDelete: Cascade)
-  videoId     String   @db.ObjectId
+  video       Video    @relation(fields: [videoId], references: [id])
+  videoId     String   @unique @db.ObjectId
   viewedBy    User[]   @relation(name: "ViewedBy", fields: [viewedByIds], references: [id])
   viewedByIds String[] @db.ObjectId
 
