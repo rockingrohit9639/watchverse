@@ -153,33 +153,16 @@ export class VideoService {
   }
 
   async getUserFeedVideos(user: SanitizedUser): Promise<Video[]> {
-    const userInteractedVideos = await this.prismaService.video.findMany({
+    const userInteractedVideoTags = await this.prismaService.video.findMany({
       where: {
         OR: [{ likeDocument: { likedByIds: { has: user.id } } }, { viewDocument: { viewedByIds: { has: user.id } } }],
       },
+      select: { tagIds: true },
     })
-    return this.recommendVideos(userInteractedVideos)
-  }
 
-  private async recommendVideos(userInteractions: Video[]) {
-    const allVideos = await this.findAll()
-    const recommendedVideos = []
-
-    for (const interaction of userInteractions) {
-      for (const video of allVideos) {
-        /** Excluding the same video */
-        if (interaction.id !== video.id) {
-          for (const tag of video.tagIds) {
-            if (interaction.tagIds.includes(tag)) {
-              recommendedVideos.push(video.id)
-            }
-          }
-        }
-      }
-    }
-
+    const tags = new Set(userInteractedVideoTags.map((video) => video.tagIds).flat())
     return this.prismaService.video.findMany({
-      where: { id: { in: recommendedVideos } },
+      where: { tagIds: { hasSome: [...tags] }, uploadedById: { not: { in: user.id } } },
       include: VIDEO_INCLUDE_FIELDS,
     })
   }
