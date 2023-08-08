@@ -35,3 +35,8 @@ export async function addToPlaylist(videoId: string, playlistId: string) {
   const { data } = await apiClient.post(`video/add-to-playlist/${videoId}/${playlistId}`)
   return data
 }
+
+export async function findSuggestedVideos(id: string) {
+  const { data } = await apiClient.get<Video[]>(`video/suggestions/${id}`)
+  return data
+}

@@ -7,9 +7,10 @@ import LikeVideo from '~/components/like-video'
 import Loading from '~/components/loading'
 import Page from '~/components/page'
 import SubscribeChannel from '~/components/subscribe-channel'
+import Video from '~/components/video'
 import VideoComments from '~/components/video-comments'
 import VideoPlayer from '~/components/video-player'
-import { findVideoDetails } from '~/queries/video'
+import { findSuggestedVideos, findVideoDetails } from '~/queries/video'
 import { updateView } from '~/queries/view'
 import { ENV } from '~/utils/env'
 import { getErrorMessage } from '~/utils/error'
@@ -29,6 +30,8 @@ export default function VideoDetails() {
       viewMutation.mutate(id)
     },
   })
+
+  const { data: suggestedVideos } = useQuery(QUERY_KEYS['suggested-videos'], () => findSuggestedVideos(id))
 
   if (isLoading) {
     return <Loading>Loading video...</Loading>
@@ -80,7 +83,11 @@ export default function VideoDetails() {
         <VideoComments videoId={video.id} />
       </div>
 
-      <div className="hidden sm:block">Suggestions</div>
+      <div className="hidden sm:block space-y-2">
+        {suggestedVideos?.map((video) => (
+          <Video key={video.id} video={video} />
+        ))}
+      </div>
     </Page>
   )
 }

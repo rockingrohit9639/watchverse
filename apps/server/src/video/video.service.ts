@@ -161,10 +161,17 @@ export class VideoService {
     })
 
     const tags = new Set(userInteractedVideoTags.map((video) => video.tagIds).flat())
-    return this.prismaService.video.findMany({
+    const recommendedVideos = await this.prismaService.video.findMany({
       where: { tagIds: { hasSome: [...tags] }, uploadedById: { not: { in: user.id } } },
       include: VIDEO_INCLUDE_FIELDS,
     })
+
+    const otherVideos = await this.prismaService.video.findMany({
+      where: { id: { not: { in: recommendedVideos.map((video) => video.id) } }, uploadedById: { not: user.id } },
+      include: VIDEO_INCLUDE_FIELDS,
+    })
+
+    return [...recommendedVideos, ...otherVideos]
   }
 
   findAll(): Promise<Video[]> {

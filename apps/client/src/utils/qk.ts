@@ -15,4 +15,5 @@ export const QUERY_KEYS = {
   comments: 'comments',
   like: 'like',
   tags: 'tags',
+  'suggested-videos': 'suggested-videos',
 } as const
