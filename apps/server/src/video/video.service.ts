@@ -188,4 +188,12 @@ export class VideoService {
     const video = await this.findOneById(id)
     return this.prismaService.video.update({ where: { id }, data: { views: video.views + 1 } })
   }
+
+  async findSuggestedVideos(id: string, user: SanitizedUser): Promise<Video[]> {
+    const video = await this.findOneById(id)
+    return this.prismaService.video.findMany({
+      where: { tagIds: { hasSome: video.tagIds }, uploadedById: { not: user.id } },
+      include: VIDEO_INCLUDE_FIELDS,
+    })
+  }
 }

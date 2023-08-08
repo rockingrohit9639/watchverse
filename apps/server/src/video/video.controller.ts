@@ -69,6 +69,12 @@ export class VideoController {
   }
 
   @UseGuards(JwtGuard)
+  @Get('suggestions/:id')
+  findSuggestedVideos(@Param('id') id: string, @GetUser() user: SanitizedUser): Promise<Video[]> {
+    return this.videoService.findSuggestedVideos(id, user)
+  }
+
+  @UseGuards(JwtGuard)
   @Get('active')
   findActiveChannelVideos(@GetUser() user: SanitizedUser): Promise<Video[]> {
     return this.videoService.findActiveChannelVideos(user)
