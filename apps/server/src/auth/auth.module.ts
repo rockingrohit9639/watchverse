@@ -8,6 +8,7 @@ import { UserModule } from '~/user/user.module'
 import { createJwtOptions } from '~/config/jwt.options'
 import { JwtStrategy } from './jwt/jwt.strategy'
 import { NotificationModule } from '~/notification/notification.module'
+import { OneSignStrategy } from './one-sign/one-sign.strategy'
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { NotificationModule } from '~/notification/notification.module'
     NotificationModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, OneSignStrategy],
 })
 export class AuthModule {}

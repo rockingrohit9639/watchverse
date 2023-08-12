@@ -12,6 +12,7 @@ const PlaylistDetails = React.lazy(() => import('./pages/playlist-details'))
 const ChannelDetails = React.lazy(() => import('./pages/channel-details'))
 const CustomizeChannel = React.lazy(() => import('./pages/customize-channel'))
 const VideoDetails = React.lazy(() => import('./pages/video-details'))
+const SsoCallback = React.lazy(() => import('./pages/sso-callback'))
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/sso/callback" element={<SsoCallback />} />
       </Routes>
     </Suspense>
   )
