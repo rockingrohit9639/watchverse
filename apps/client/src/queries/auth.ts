@@ -1,6 +1,8 @@
+import axios from 'axios'
 import { LoginDto, SignupDto } from '~/types/auth'
 import { User } from '~/types/user'
 import { apiClient } from '~/utils/client'
+import { ENV } from '~/utils/env'
 
 export type LoginResponse = { accessToken: string; user: User }
 
@@ -20,7 +22,9 @@ export async function signup(dto: SignupDto) {
 }
 
 export async function signInUsingAccessToken(accessToken: string) {
-  const { data } = await apiClient.get<User>('auth/me', { headers: { Authorization: `Bearer ${accessToken}` } })
+  const { data } = await axios.get<User>(`${ENV.VITE_API_BASE_URL}/auth/me`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
   return {
     user: data,
     accessToken,

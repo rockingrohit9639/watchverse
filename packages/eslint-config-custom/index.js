@@ -5,12 +5,7 @@ const config = {
     node: true,
   },
   globals: {},
-  extends: [
-    'plugin:react/recommended',
-    'standard',
-    'plugin:react-hooks/recommended',
-    'plugin:import/typescript',
-  ],
+  extends: ['plugin:react/recommended', 'standard', 'plugin:react-hooks/recommended', 'plugin:import/typescript'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
