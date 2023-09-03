@@ -1,6 +1,6 @@
 import { Divider, Result } from 'antd'
 import moment from 'moment'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import Loading from '~/components/loading'
 import Page from '~/components/page'

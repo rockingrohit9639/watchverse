@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Avatar, Form, Input, Result } from 'antd'
 import { createComment, findVideoComments } from '~/queries/comment'
 import { QUERY_KEYS } from '~/utils/qk'

@@ -1,7 +1,7 @@
 import { Form, Modal, ModalProps } from 'antd'
 import { Store } from 'antd/es/form/interface'
 import { cloneElement, useState } from 'react'
-import { MutationFunction, QueryClient, useMutation, useQueryClient } from 'react-query'
+import { MutationFunction, QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import useError from '~/hooks/use-error'
 
 type EntityMutationModalProps<T> = Omit<ModalProps, 'open' | 'onCancel' | 'onOk'> & {

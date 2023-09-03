@@ -1,6 +1,6 @@
 import { Result } from 'antd'
 import { range } from 'lodash'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import Page from '~/components/page'
 import Video from '~/components/video'
 import { fetchFeed } from '~/queries/video'
@@ -8,7 +8,7 @@ import { getErrorMessage } from '~/utils/error'
 import { QUERY_KEYS } from '~/utils/qk'
 
 export default function Home() {
-  const { data: videos, isLoading, error } = useQuery(QUERY_KEYS.feed, fetchFeed)
+  const { data: videos, isLoading, error } = useQuery([QUERY_KEYS.feed], fetchFeed)
 
   if (isLoading) {
     return (

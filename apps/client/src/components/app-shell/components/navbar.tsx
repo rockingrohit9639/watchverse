@@ -2,7 +2,7 @@ import { Avatar, Dropdown, Tooltip } from 'antd'
 import clsx from 'clsx'
 import { CheckOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons'
 import { AiOutlineHome, AiOutlineVideoCameraAdd } from 'react-icons/ai'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
 import { ItemType } from 'antd/es/menu/hooks/useItems'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
@@ -28,7 +28,7 @@ const NAVBAR_HEIGHT = 60
 
 export default function Navbar({ className, style }: NavbarProps) {
   const { user } = useUser()
-  const { data: userChannels } = useQuery(QUERY_KEYS.channels, fetchUserChannels)
+  const { data: userChannels } = useQuery([QUERY_KEYS.channels], fetchUserChannels)
   const { handleError } = useError()
   const queryClient = useQueryClient()
   const navigate = useNavigate()

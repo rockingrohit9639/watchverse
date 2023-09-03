@@ -1,6 +1,6 @@
 import { RedoOutlined } from '@ant-design/icons'
 import { Button, Empty, Form, Input, Result, message } from 'antd'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import FileUploader from '~/components/file-uploader'
 import Loading from '~/components/loading'
@@ -14,14 +14,14 @@ import { QUERY_KEYS } from '~/utils/qk'
 
 export default function CustomizeChannel() {
   const { id } = useParams() as { id: string }
-  const { data, isLoading, error } = useQuery(QUERY_KEYS.channel, () => fetchChannelDetails(id))
+  const { data, isLoading, error } = useQuery([QUERY_KEYS.channel], () => fetchChannelDetails(id))
   const { handleError } = useError()
   const queryClient = useQueryClient()
 
   const updateChannelMutation = useMutation((dto: UpdateChannelDto) => updateChannel(id, dto), {
     onError: handleError,
     onSuccess: () => {
-      queryClient.invalidateQueries(QUERY_KEYS.channels)
+      queryClient.invalidateQueries([QUERY_KEYS.channels])
       message.success('Channel Updated Successfully!')
     },
   })

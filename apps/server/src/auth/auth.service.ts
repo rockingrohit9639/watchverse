@@ -26,7 +26,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid Credentials!')
     }
 
-    const isPasswordValid = await bcrypt.compareSync(dto.password, user.password)
+    const isPasswordValid = bcrypt.compareSync(dto.password, user.password)
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid Credentials')
     }

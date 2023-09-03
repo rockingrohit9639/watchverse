@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Result } from 'antd'
 import moment from 'moment'
 import { fetchChannelStats } from '~/queries/channel'

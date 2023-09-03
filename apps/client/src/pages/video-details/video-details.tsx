@@ -1,7 +1,7 @@
 import { ShareAltOutlined } from '@ant-design/icons'
 import { Avatar, Empty, Result } from 'antd'
 import moment from 'moment'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import LikeVideo from '~/components/like-video'
 import Loading from '~/components/loading'
@@ -31,7 +31,7 @@ export default function VideoDetails() {
     },
   })
 
-  const { data: suggestedVideos } = useQuery(QUERY_KEYS['suggested-videos'], () => findSuggestedVideos(id))
+  const { data: suggestedVideos } = useQuery([QUERY_KEYS['suggested-videos']], () => findSuggestedVideos(id))
 
   if (isLoading) {
     return <Loading>Loading video...</Loading>

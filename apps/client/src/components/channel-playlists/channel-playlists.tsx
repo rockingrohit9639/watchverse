@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Empty, Result } from 'antd'
 import { findChannelPlaylists } from '~/queries/playlist'
 import { QUERY_KEYS } from '~/utils/qk'

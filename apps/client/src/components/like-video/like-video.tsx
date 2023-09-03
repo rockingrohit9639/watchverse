@@ -1,7 +1,7 @@
 import { LikeFilled, LikeOutlined } from '@ant-design/icons'
 import clsx from 'clsx'
 import { useMemo } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import useError from '~/hooks/use-error'
 import { useUser } from '~/hooks/use-user'
 import { getLikeDocumentForVideo, likeOrUnlike } from '~/queries/like'

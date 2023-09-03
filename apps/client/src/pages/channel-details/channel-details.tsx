@@ -1,5 +1,5 @@
 import { Empty, Result, Tabs } from 'antd'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import AboutChannel from '~/components/about-channel'
 import ChannelPlaylists from '~/components/channel-playlists'

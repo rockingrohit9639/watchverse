@@ -1,5 +1,5 @@
 import { Form, Select } from 'antd'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import EntityMutationModal from '../entity-mutation-modal'
 import { addToPlaylist } from '~/queries/video'
 import { QUERY_KEYS } from '~/utils/qk'
@@ -13,7 +13,7 @@ type AddToPlaylistProps = {
 }
 
 export default function AddToPlaylist({ className, style, videoId, trigger }: AddToPlaylistProps) {
-  const { data } = useQuery(QUERY_KEYS['active-channel-playlists'], findActiveChannelPlaylists)
+  const { data } = useQuery([QUERY_KEYS['active-channel-playlists']], findActiveChannelPlaylists)
 
   return (
     <EntityMutationModal

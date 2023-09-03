@@ -1,5 +1,5 @@
 import { Button, Form, Input } from 'antd'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '~/hooks/use-auth'
 import useError from '~/hooks/use-error'
@@ -20,7 +20,7 @@ export default function Signup() {
       localStorage.setItem(ENV.VITE_BEARER_TOKEN_KEY, accessToken)
 
       // setting the user in state
-      queryClient.setQueryData(QUERY_KEYS['logged-in'], user)
+      queryClient.setQueryData([QUERY_KEYS['logged-in']], user)
 
       navigate('/', { replace: true })
     },

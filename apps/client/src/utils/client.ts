@@ -1,5 +1,5 @@
 import axios, { AxiosRequestHeaders } from 'axios'
-import { QueryClient } from 'react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { ENV } from './env'
 
 export const apiClient = axios.create({

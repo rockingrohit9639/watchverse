@@ -1,7 +1,7 @@
 import { MoreOutlined } from '@ant-design/icons'
 import { Divider, Dropdown } from 'antd'
 import { useCallback } from 'react'
-import { useQueries } from 'react-query'
+import { useQueries } from '@tanstack/react-query'
 import AddToPlaylist from '~/components/add-to-playlist'
 import Loading from '~/components/loading'
 import Page from '~/components/page'
@@ -13,10 +13,12 @@ import { findActiveChannelVideos } from '~/queries/video'
 import { QUERY_KEYS } from '~/utils/qk'
 
 export default function Library() {
-  const [playlistsQuery, videosQuery] = useQueries([
-    { queryKey: QUERY_KEYS['channel-playlists'], queryFn: findActiveChannelPlaylists },
-    { queryKey: QUERY_KEYS['active-channel-videos'], queryFn: findActiveChannelVideos },
-  ])
+  const [playlistsQuery, videosQuery] = useQueries({
+    queries: [
+      { queryKey: [QUERY_KEYS['channel-playlists']], queryFn: findActiveChannelPlaylists },
+      { queryKey: [QUERY_KEYS['active-channel-videos']], queryFn: findActiveChannelVideos },
+    ],
+  })
 
   const videoMoreContent = useCallback((videoId: string) => {
     return (

@@ -1,7 +1,7 @@
 import { message } from 'antd'
 import constate from 'constate'
 import { useCallback } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   LoginResponse,
   fetchLoggedInUser,
@@ -22,7 +22,7 @@ export function useAuth() {
     data: user,
     remove: removeUserData,
     refetch: refetchUserData,
-  } = useQuery(QUERY_KEYS['logged-in'], fetchLoggedInUser, {
+  } = useQuery([QUERY_KEYS['logged-in']], fetchLoggedInUser, {
     retry: false,
   })
 
@@ -33,7 +33,7 @@ export function useAuth() {
       window.localStorage.setItem(ENV.VITE_BEARER_TOKEN_KEY, result.accessToken)
 
       // update the user in the queryClient, so that you would automatically get user from useAuthContext
-      queryClient.setQueryData(QUERY_KEYS['logged-in'], result.user)
+      queryClient.setQueryData([QUERY_KEYS['logged-in']], result.user)
     },
     [queryClient],
   )

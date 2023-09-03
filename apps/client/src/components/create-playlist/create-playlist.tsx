@@ -24,7 +24,7 @@ export default function CreatePlaylist({ className, style, trigger }: CreatePlay
       initialValues={{ visibility: Visibility.PRIVATE }}
       mutationFn={createPlaylist}
       onSuccess={(createdPlaylist: Playlist, queryClient) => {
-        queryClient.setQueryData<Playlist[]>(QUERY_KEYS.playlists, (prev) => {
+        queryClient.setQueryData<Playlist[]>([QUERY_KEYS.playlists], (prev) => {
           if (!prev) return []
 
           return [...prev, createdPlaylist]

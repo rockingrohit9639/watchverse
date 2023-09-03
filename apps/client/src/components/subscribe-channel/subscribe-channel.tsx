@@ -1,7 +1,7 @@
 import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import { useMemo } from 'react'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useError from '~/hooks/use-error'
 import { useUser } from '~/hooks/use-user'
 import { subscribeChannel } from '~/queries/channel'

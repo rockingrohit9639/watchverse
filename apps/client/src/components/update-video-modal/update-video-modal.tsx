@@ -1,5 +1,5 @@
 import { Form, Input, Select } from 'antd'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import EntityMutationModal from '../entity-mutation-modal'
 import { findVideoDetails, updateVideo } from '~/queries/video'
 import { QUERY_KEYS } from '~/utils/qk'
@@ -15,7 +15,7 @@ type UpdateVideoModalProps = {
 }
 
 export default function UpdateVideoModal({ className, style, trigger, videoId }: UpdateVideoModalProps) {
-  const { data } = useQuery(QUERY_KEYS.video, () => findVideoDetails(videoId))
+  const { data } = useQuery([QUERY_KEYS.video], () => findVideoDetails(videoId))
 
   return (
     <EntityMutationModal
@@ -29,7 +29,7 @@ export default function UpdateVideoModal({ className, style, trigger, videoId }:
         visibility: data?.visibility,
       }}
       onSuccess={(updatedVideo: Video, queryClient) => {
-        queryClient.setQueryData<Video[]>(QUERY_KEYS['active-channel-videos'], (prev) => {
+        queryClient.setQueryData<Video[]>([QUERY_KEYS['active-channel-videos']], (prev) => {
           if (!prev) return []
 
           return prev.map((video) => {

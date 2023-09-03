@@ -2,7 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Divider, Form, Input, Select, SelectProps } from 'antd'
 import clsx from 'clsx'
 import { useMemo } from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import useError from '~/hooks/use-error'
 import { createTag, findTags } from '~/queries/tag'
 import { Tag } from '~/types/tag'
@@ -11,7 +11,7 @@ import { QUERY_KEYS } from '~/utils/qk'
 type TagSelectorProps = Omit<SelectProps, 'dropdownRender' | 'options'>
 
 export default function TagSelector({ ...props }: TagSelectorProps) {
-  const { data } = useQuery(QUERY_KEYS.tags, findTags)
+  const { data } = useQuery([QUERY_KEYS.tags], findTags)
   const { handleError } = useError()
   const queryClient = useQueryClient()
   const [form] = Form.useForm()
@@ -20,7 +20,7 @@ export default function TagSelector({ ...props }: TagSelectorProps) {
     onError: handleError,
     onSuccess: (createdTag) => {
       form.resetFields()
-      queryClient.setQueryData<Tag[]>(QUERY_KEYS.tags, (prevTags) => {
+      queryClient.setQueryData<Tag[]>([QUERY_KEYS.tags], (prevTags) => {
         if (!prevTags) return []
 
         return [createdTag, ...prevTags]

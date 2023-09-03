@@ -1,6 +1,6 @@
 import { UploadOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Select, message } from 'antd'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import FileUploader from '~/components/file-uploader'
 import Page from '~/components/page'
